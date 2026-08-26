@@ -7,9 +7,9 @@ import {
 } from "../services/authRecoveryService.js";
 
 const GENERIC_RESET_MESSAGE =
-  "If a Khairo Diet Clinic client account exists for that email, a secure reset link will be sent shortly.";
+  "If a KhairoDietClinic client account exists for that email, a secure reset link will be sent shortly.";
 const GENERIC_ACTIVATION_MESSAGE =
-  "If an eligible Khairo Diet Clinic client record exists for that email, a secure activation link will be sent shortly.";
+  "If an eligible KhairoDietClinic client record exists for that email, a secure activation link will be sent shortly.";
 
 export async function preventExistingClientPortalRegistration(req, res, next) {
   try {
@@ -25,7 +25,7 @@ export async function preventExistingClientPortalRegistration(req, res, next) {
       code: existing.portalActive ? "ACCOUNT_EXISTS" : "EXISTING_CLIENT_REQUIRES_ACTIVATION",
       message: existing.portalActive
         ? "An account already exists with this email. Please sign in."
-        : "A Khairo Diet Clinic client record already exists for this email. Request a secure activation link instead.",
+        : "A KhairoDietClinic client record already exists for this email. Request a secure activation link instead.",
     });
   } catch (error) {
     next(error);
@@ -213,7 +213,7 @@ export async function completeClientActivation(req, res, next) {
 
     return res.status(200).json({
       success: true,
-      message: "Your Khairo Diet Clinic account is active. You can now sign in.",
+      message: "Your KhairoDietClinic account is active. You can now sign in.",
     });
   } catch (error) {
     next(error);

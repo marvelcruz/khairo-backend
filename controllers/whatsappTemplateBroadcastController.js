@@ -96,7 +96,7 @@ function validateRecipientIds(recipients) {
 
   const ids = recipients.map((recipient) => String(recipient?.clientId || "").trim());
   if (ids.some((id) => !mongoose.Types.ObjectId.isValid(id))) {
-    const error = new Error("Every WhatsApp template recipient must include a valid Khairo Diet Clinic client ID.");
+    const error = new Error("Every WhatsApp template recipient must include a valid KhairoDietClinic client ID.");
     error.statusCode = 400;
     throw error;
   }
@@ -118,7 +118,7 @@ async function resolveConsentedRecipients(recipients) {
     .lean();
 
   if (clients.length !== clientIds.length) {
-    const error = new Error("One or more recipients could not be verified as current Khairo Diet Clinic clients.");
+    const error = new Error("One or more recipients could not be verified as current KhairoDietClinic clients.");
     error.statusCode = 409;
     throw error;
   }

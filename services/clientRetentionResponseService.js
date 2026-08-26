@@ -25,7 +25,7 @@ function signalLabels(signals) {
 }
 
 function listText(items) {
-  if (!items.length) return "your Khairo Diet Clinic routine";
+  if (!items.length) return "your KhairoDietClinic routine";
   if (items.length === 1) return items[0];
   if (items.length === 2) return `${items[0]} and ${items[1]}`;
   return `${items.slice(0, -1).join(", ")}, and ${items.at(-1)}`;
@@ -36,10 +36,10 @@ function clientNudgeText(client, signals) {
   const labels = signalLabels(signals);
 
   if (labels.length === 1) {
-    return `Hi ${first}, just checking in. It looks like your ${labels[0]} may be due. Please update it when you can, and message your Khairo Diet Clinic team if you need any help.`;
+    return `Hi ${first}, just checking in. It looks like your ${labels[0]} may be due. Please update it when you can, and message your KhairoDietClinic team if you need any help.`;
   }
 
-  return `Hi ${first}, just checking in. A few parts of your Khairo Diet Clinic routine may need attention: ${listText(labels)}. Please log in when you can, and message your Khairo Diet Clinic team if you need any help.`;
+  return `Hi ${first}, just checking in. A few parts of your KhairoDietClinic routine may need attention: ${listText(labels)}. Please log in when you can, and message your KhairoDietClinic team if you need any help.`;
 }
 
 async function latestEpisodeAudit(clientId) {
@@ -85,7 +85,7 @@ async function sendClientRetentionNudge(client, signals) {
   await ClientMessage.create({
     client: client._id,
     senderType: "staff",
-    senderName: "Khairo Diet Clinic Team",
+    senderName: "KhairoDietClinic Team",
     category: "help",
     body: text.replace(/^Hi [^,]+,\s*/, ""),
     readByClient: false,
@@ -99,7 +99,7 @@ async function sendClientRetentionNudge(client, signals) {
     (await emailRemindersEnabled(client._id))
   ) {
     const first = firstName(client);
-    const html = `<div style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;background:#0a0a0a;padding:32px;color:#f5f5f5;"><div style="max-width:520px;margin:0 auto;background:#171717;border:1px solid #262626;border-radius:8px;padding:32px;"><p style="margin:0 0 16px;">Hi ${first},</p><p style="margin:0;font-size:15px;line-height:1.6;color:#d4d4d4;">${text.replace(`Hi ${first}, `, "")}</p><p style="margin:24px 0 0;font-size:12px;color:#737373;">Khairo Diet Clinic</p></div></div>`;
+    const html = `<div style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;background:#0a0a0a;padding:32px;color:#f5f5f5;"><div style="max-width:520px;margin:0 auto;background:#171717;border:1px solid #262626;border-radius:8px;padding:32px;"><p style="margin:0 0 16px;">Hi ${first},</p><p style="margin:0;font-size:15px;line-height:1.6;color:#d4d4d4;">${text.replace(`Hi ${first}, `, "")}</p><p style="margin:24px 0 0;font-size:12px;color:#737373;">KhairoDietClinic</p></div></div>`;
 
     await sendEmail({
       to: client.email,

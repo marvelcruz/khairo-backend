@@ -83,7 +83,7 @@ async function runNewSignupAdminNotification(settings) {
 
     await notifyAdmin({
       settings,
-      subject: `New Khairo Diet Clinic client signup: ${client.fullName}`,
+      subject: `New KhairoDietClinic client signup: ${client.fullName}`,
       body: `${client.fullName} signed up for the client portal.\nEmail: ${client.email}\nPhone: ${client.phone}`,
       contactId: contact._id,
       event: "automation_new_signup_admin_notification",

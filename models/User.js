@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
       minlength: [8, "Password must be at least 8 characters"],
       select: false,
     },
-    // New Khairo Diet Clinic accounts use only staff or doctor. Legacy values remain
+    // New KhairoDietClinic accounts use only staff or doctor. Legacy values remain
     // accepted temporarily so existing accounts can be migrated safely.
     roles: {
       type: [String],

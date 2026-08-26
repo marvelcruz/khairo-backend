@@ -6,7 +6,7 @@ import {
 } from "../services/authRecoveryService.js";
 
 const GENERIC_REQUEST_MESSAGE =
-  "If an active Khairo Diet Clinic staff account exists for that email, a secure reset link will be sent shortly.";
+  "If an active KhairoDietClinic staff account exists for that email, a secure reset link will be sent shortly.";
 
 export async function requestStaffPasswordReset(req, res, next) {
   try {

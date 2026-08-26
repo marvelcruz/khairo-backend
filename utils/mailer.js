@@ -11,7 +11,7 @@ export const isEmailConfigured = () =>
 async function sendBrevoEmail({ to, subject, html, text }) {
   const apiKey = process.env.BREVO_API_KEY;
   if (!apiKey) {
-    const err = new Error("Connect Gmail in Khairo Diet Clinic Setup to send email.");
+    const err = new Error("Connect Gmail in KhairoDietClinic Setup to send email.");
     err.status = 501;
     throw err;
   }
@@ -25,7 +25,7 @@ async function sendBrevoEmail({ to, subject, html, text }) {
     },
     body: JSON.stringify({
       sender: {
-        name: process.env.EMAIL_FROM_NAME || "Khairo Diet Clinic",
+        name: process.env.EMAIL_FROM_NAME || "KhairoDietClinic",
         email: process.env.EMAIL_FROM || "no-reply@khairo.com",
       },
       to: [{ email: to }],
@@ -58,7 +58,7 @@ export const sendEmail = async ({ to, subject, html, text }) => {
     }
 
     if (gmailError?.code === "GMAIL_NOT_CONNECTED") {
-      const err = new Error("Connect Gmail in Khairo Diet Clinic Setup to send email.");
+      const err = new Error("Connect Gmail in KhairoDietClinic Setup to send email.");
       err.status = 501;
       throw err;
     }

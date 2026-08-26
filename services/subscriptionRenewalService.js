@@ -57,9 +57,9 @@ export async function runSubscriptionRenewalReminders() {
     try {
       await sendEmail({
         to: client.email,
-        subject: "Your Khairo Diet Clinic programme renews soon",
-        text: `Hi ${client.fullName},\n\nYour current Khairo Diet Clinic programme period ends on ${endDate}. We'll be in touch to help you continue or choose the next best step.\n\n— Khairo Diet Clinic`,
-        html: `<p>Hi ${client.fullName},</p><p>Your current Khairo Diet Clinic programme period ends on <strong>${endDate}</strong>.</p><p>We'll be in touch to help you continue or choose the next best step.</p><p>— Khairo Diet Clinic</p>`,
+        subject: "Your KhairoDietClinic programme renews soon",
+        text: `Hi ${client.fullName},\n\nYour current KhairoDietClinic programme period ends on ${endDate}. We'll be in touch to help you continue or choose the next best step.\n\n— KhairoDietClinic`,
+        html: `<p>Hi ${client.fullName},</p><p>Your current KhairoDietClinic programme period ends on <strong>${endDate}</strong>.</p><p>We'll be in touch to help you continue or choose the next best step.</p><p>— KhairoDietClinic</p>`,
       });
 
       subscription.renewalRemindersSent[flag] = true;

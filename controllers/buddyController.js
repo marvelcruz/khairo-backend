@@ -133,7 +133,7 @@ export const createPair = async (req, res, next) => {
       return res.status(409).json({
         success: false,
         message:
-          "The mentee must be an active, reconciled Khairo Diet Clinic client.",
+          "The mentee must be an active, reconciled KhairoDietClinic client.",
       });
     }
 

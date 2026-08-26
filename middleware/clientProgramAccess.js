@@ -17,10 +17,10 @@ export const requireActiveProgram = async (
         code: "PROGRAM_NOT_ACTIVE",
         message:
           access.stage === "preview"
-            ? "Subscribe to a Khairo Diet Clinic program to unlock this feature."
+            ? "Subscribe to a KhairoDietClinic program to unlock this feature."
             : access.stage === "paused"
-            ? "Your Khairo Diet Clinic subscription is not currently active."
-            : "Your Khairo Diet Clinic program has been completed.",
+            ? "Your KhairoDietClinic subscription is not currently active."
+            : "Your KhairoDietClinic program has been completed.",
       });
     }
 

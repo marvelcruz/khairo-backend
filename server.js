@@ -195,7 +195,7 @@ app.use("/api", apiLimiter);
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "Khairo Diet Clinic API is running.",
+    message: "KhairoDietClinic API is running.",
     release: releaseSha,
     uptimeSeconds: Math.max(0, Math.floor((Date.now() - processStartedAt.getTime()) / 1000)),
   });
@@ -579,7 +579,7 @@ let shuttingDown = false;
 async function shutdown(signal, exitCode = 0) {
   if (shuttingDown) return;
   shuttingDown = true;
-  console.log(`${signal} received. Closing Khairo Diet Clinic API gracefully.`);
+  console.log(`${signal} received. Closing KhairoDietClinic API gracefully.`);
 
   const forceExit = setTimeout(() => {
     console.error("Graceful shutdown timed out; forcing process exit.");

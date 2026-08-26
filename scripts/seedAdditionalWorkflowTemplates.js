@@ -16,7 +16,7 @@ const templates = [
         type: "notify_staff",
         config: {
           userId: "",
-          subject: "New Khairo Diet Clinic application received",
+          subject: "New KhairoDietClinic application received",
           body: "{{application.name}} submitted a new application. Review it in Applications.",
         },
       },
@@ -31,7 +31,7 @@ const templates = [
         type: "create_task",
         config: {
           subject: "Welcome new portal signup",
-          body: "Welcome {{contact.name}} and help them choose the right Khairo Diet Clinic program.",
+          body: "Welcome {{contact.name}} and help them choose the right KhairoDietClinic program.",
           dueInDays: 1,
           hour: 10,
         },
@@ -62,7 +62,7 @@ const templates = [
         type: "create_task",
         config: {
           subject: "Follow up after completed appointment",
-          body: "Review notes and schedule the next Khairo Diet Clinic step for {{contact.name}}.",
+          body: "Review notes and schedule the next KhairoDietClinic step for {{contact.name}}.",
           dueInDays: 1,
           hour: 10,
         },

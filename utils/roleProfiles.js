@@ -1,7 +1,7 @@
 export const STAFF_PROFILE = "staff";
 export const DOCTOR_PROFILE = "doctor";
 
-// These older Khairo Diet Clinic roles remain readable during migration so existing
+// These older KhairoDietClinic roles remain readable during migration so existing
 // accounts do not lose access. New and edited accounts use only staff/doctor.
 export const LEGACY_STAFF_ROLES = ["admin", "coach", "sales"];
 export const VISIBLE_ROLE_PROFILES = [STAFF_PROFILE, DOCTOR_PROFILE];

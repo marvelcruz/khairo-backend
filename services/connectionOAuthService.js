@@ -215,7 +215,7 @@ async function exchangeInstagramCode({ definition, clientId, clientSecret, code,
   if (!longResponse.ok || !longToken.access_token) {
     throw new Error(
       longToken?.error?.message ||
-        "Instagram connected, but Khairo Diet Clinic could not keep the connection active."
+        "Instagram connected, but KhairoDietClinic could not keep the connection active."
     );
   }
 

@@ -22,23 +22,23 @@ async function ensureWorkspace(user) {
   let workspace = await BusinessWorkspace.findOne({ workspaceKey: key });
   if (workspace) return workspace;
 
-  const isExistingKhairo Diet ClinicWorkspace = key === "business";
-  const completeSteps = isExistingKhairo Diet ClinicWorkspace
+  const isExistingKhairoDietClinicWorkspace = key === "business";
+  const completeSteps = isExistingKhairoDietClinicWorkspace
     ? Object.fromEntries(SETUP_STEPS.map((step) => [step, true]))
     : {};
 
   workspace = await BusinessWorkspace.create({
     workspaceKey: key,
     profile: {
-      displayName: isExistingKhairo Diet ClinicWorkspace ? "Khairo Diet Clinic" : "",
+      displayName: isExistingKhairoDietClinicWorkspace ? "KhairoDietClinic" : "",
     },
     branding: {
-      publicName: isExistingKhairo Diet ClinicWorkspace ? "Khairo Diet Clinic" : "",
+      publicName: isExistingKhairoDietClinicWorkspace ? "KhairoDietClinic" : "",
       primaryColor: "#EC008C",
     },
     setup: {
       steps: completeSteps,
-      completedAt: isExistingKhairo Diet ClinicWorkspace ? new Date() : null,
+      completedAt: isExistingKhairoDietClinicWorkspace ? new Date() : null,
     },
     createdBy: user?._id || null,
     updatedBy: user?._id || null,

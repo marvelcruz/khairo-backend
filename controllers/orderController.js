@@ -19,7 +19,7 @@ export async function createOrderIfNeeded({ client, subscription, staffId }) {
   const currency = String(offering?.currency || "NGN").toUpperCase();
   const offeringName =
     offering?.name ||
-    `${String(client.program || "Khairo Diet Clinic").replaceAll("_", " ")} subscription`;
+    `${String(client.program || "KhairoDietClinic").replaceAll("_", " ")} subscription`;
 
   let order;
 

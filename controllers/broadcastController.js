@@ -57,7 +57,7 @@ async function resolveConsentedBroadcastRecipients(recipients = []) {
 
   if (clientIds.length !== recipients.length) {
     const error = new Error(
-      "Recipient verification requires a current Khairo Diet Clinic client ID for every selected recipient. Refresh the Broadcast Builder audience before sending."
+      "Recipient verification requires a current KhairoDietClinic client ID for every selected recipient. Refresh the Broadcast Builder audience before sending."
     );
     error.statusCode = 400;
     throw error;
@@ -72,7 +72,7 @@ async function resolveConsentedBroadcastRecipients(recipients = []) {
 
   if (clients.length !== clientIds.length) {
     const error = new Error(
-      "One or more selected recipients could not be verified as current Khairo Diet Clinic clients. Refresh the Broadcast Builder audience before sending."
+      "One or more selected recipients could not be verified as current KhairoDietClinic clients. Refresh the Broadcast Builder audience before sending."
     );
     error.statusCode = 409;
     throw error;

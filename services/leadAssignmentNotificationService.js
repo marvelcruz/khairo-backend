@@ -49,7 +49,7 @@ async function notifyUser({
 
   const pushPromise = isPushConfigured()
     ? sendPushToUser(user._id, {
-        title: "New Khairo Diet Clinic lead assigned",
+        title: "New KhairoDietClinic lead assigned",
         body: pushBody,
         url: url.relative,
       })
@@ -75,12 +75,12 @@ async function notifyUser({
       });
 
   const emailSubject = adminCopy
-    ? `New Khairo Diet Clinic lead assigned to ${assignedRepName}`
-    : "New Khairo Diet Clinic lead assigned to you";
+    ? `New KhairoDietClinic lead assigned to ${assignedRepName}`
+    : "New KhairoDietClinic lead assigned to you";
 
   const emailIntro = adminCopy
-    ? `A new Khairo Diet Clinic lead has been assigned to ${assignedRepName}.`
-    : "A new Khairo Diet Clinic lead has been assigned to you.";
+    ? `A new KhairoDietClinic lead has been assigned to ${assignedRepName}.`
+    : "A new KhairoDietClinic lead has been assigned to you.";
 
   const emailPromise =
     isEmailConfigured() && user.email
@@ -94,7 +94,7 @@ ${emailIntro}
 Lead: ${leadName}
 Programme: ${program}
 
-Please review in Khairo Diet Clinic:
+Please review in KhairoDietClinic:
 ${url.absolute}`,
           html: `
             <p>Hi ${escapeHtml(firstName)},</p>
@@ -104,7 +104,7 @@ ${url.absolute}`,
               <strong>Programme:</strong> ${escapeHtml(program)}
             </p>
             <p>
-              <a href="${escapeHtml(url.absolute)}">Open this lead in Khairo Diet Clinic</a>
+              <a href="${escapeHtml(url.absolute)}">Open this lead in KhairoDietClinic</a>
             </p>
           `,
         })

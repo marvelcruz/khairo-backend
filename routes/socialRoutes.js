@@ -27,7 +27,7 @@ import {
 const router = express.Router();
 
 // Provider sign-in returns here. The signed state identifies the workspace and
-// initiating administrator, so no customer credentials are handled by Khairo Diet Clinic.
+// initiating administrator, so no customer credentials are handled by KhairoDietClinic.
 router.get("/connections/callback/:provider", connectionCallback);
 
 router.use(protect);

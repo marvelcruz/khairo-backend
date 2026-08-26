@@ -86,11 +86,11 @@ export async function notifyMedicalReviewAssignment({
 
   const email = await sendMessageEmail({
     to: doctor.email,
-    subject: `Khairo Diet Clinic medical review assigned: ${contact.fullName}`,
-    text: `Hi ${firstName},\n\nA Khairo Diet Clinic medical review has been assigned to you.\n\nClient: ${contact.fullName}\nProgramme: ${program}\nEmail: ${contact.email || "Not supplied"}\nPhone: ${contact.phone || "Not supplied"}\nGoals: ${goals}\nHealth / medication information: ${healthNotes}\n\nOpen the secure medical-review record in Khairo Diet Clinic:\n${url.absolute}\n\nPlease keep medical information within Khairo Diet Clinic and approved clinical channels.`,
+    subject: `KhairoDietClinic medical review assigned: ${contact.fullName}`,
+    text: `Hi ${firstName},\n\nA KhairoDietClinic medical review has been assigned to you.\n\nClient: ${contact.fullName}\nProgramme: ${program}\nEmail: ${contact.email || "Not supplied"}\nPhone: ${contact.phone || "Not supplied"}\nGoals: ${goals}\nHealth / medication information: ${healthNotes}\n\nOpen the secure medical-review record in KhairoDietClinic:\n${url.absolute}\n\nPlease keep medical information within KhairoDietClinic and approved clinical channels.`,
     html: `
       <p>Hi ${escapeHtml(firstName)},</p>
-      <p>A Khairo Diet Clinic medical review has been assigned to you.</p>
+      <p>A KhairoDietClinic medical review has been assigned to you.</p>
       <p>
         <strong>Client:</strong> ${escapeHtml(contact.fullName)}<br>
         <strong>Programme:</strong> ${escapeHtml(program)}<br>
@@ -99,8 +99,8 @@ export async function notifyMedicalReviewAssignment({
       </p>
       <p><strong>Goals</strong><br>${escapeHtml(goals)}</p>
       <p><strong>Health / medication information</strong><br>${escapeHtml(healthNotes)}</p>
-      <p><a href="${escapeHtml(url.absolute)}">Open the secure medical-review record in Khairo Diet Clinic</a></p>
-      <p><small>Please keep medical information within Khairo Diet Clinic and approved clinical channels.</small></p>
+      <p><a href="${escapeHtml(url.absolute)}">Open the secure medical-review record in KhairoDietClinic</a></p>
+      <p><small>Please keep medical information within KhairoDietClinic and approved clinical channels.</small></p>
     `,
   });
 
@@ -121,7 +121,7 @@ export async function notifyMedicalReviewScheduled({
       })
     : "Scheduled time unavailable";
   const provider = String(medicalCase.meetingProvider || "video").replace("_", " ");
-  const meetingUrl = medicalCase.meetingUrl || "Open Khairo Diet Clinic for meeting details";
+  const meetingUrl = medicalCase.meetingUrl || "Open KhairoDietClinic for meeting details";
 
   const doctorPush = await sendDoctorPush(doctor, {
     title: "Medical review meeting scheduled",
@@ -131,28 +131,28 @@ export async function notifyMedicalReviewScheduled({
 
   const doctorEmail = await sendMessageEmail({
     to: doctor.email,
-    subject: `Khairo Diet Clinic medical review scheduled: ${contact.fullName}`,
-    text: `Medical review scheduled for ${contact.fullName}.\n\nWhen: ${when}\nFormat: ${provider}\nMeeting: ${meetingUrl}\n\nSecure Khairo Diet Clinic record:\n${url.absolute}`,
+    subject: `KhairoDietClinic medical review scheduled: ${contact.fullName}`,
+    text: `Medical review scheduled for ${contact.fullName}.\n\nWhen: ${when}\nFormat: ${provider}\nMeeting: ${meetingUrl}\n\nSecure KhairoDietClinic record:\n${url.absolute}`,
     html: `
       <p>Medical review scheduled for <strong>${escapeHtml(contact.fullName)}</strong>.</p>
       <p><strong>When:</strong> ${escapeHtml(when)}<br>
       <strong>Format:</strong> ${escapeHtml(provider)}</p>
       <p><a href="${escapeHtml(meetingUrl)}">Join video meeting</a></p>
-      <p><a href="${escapeHtml(url.absolute)}">Open secure Khairo Diet Clinic record</a></p>
+      <p><a href="${escapeHtml(url.absolute)}">Open secure KhairoDietClinic record</a></p>
     `,
   });
 
   const clientEmail = await sendMessageEmail({
     to: contact.email,
-    subject: "Your Khairo Diet Clinic medical review meeting",
-    text: `Hello ${contact.fullName},\n\nYour Khairo Diet Clinic medical review meeting has been scheduled.\n\nWhen: ${when}\nFormat: ${provider}\nMeeting: ${meetingUrl}\n\nIf you need to reschedule, please contact the Khairo Diet Clinic team.`,
+    subject: "Your KhairoDietClinic medical review meeting",
+    text: `Hello ${contact.fullName},\n\nYour KhairoDietClinic medical review meeting has been scheduled.\n\nWhen: ${when}\nFormat: ${provider}\nMeeting: ${meetingUrl}\n\nIf you need to reschedule, please contact the KhairoDietClinic team.`,
     html: `
       <p>Hello ${escapeHtml(contact.fullName)},</p>
-      <p>Your Khairo Diet Clinic medical review meeting has been scheduled.</p>
+      <p>Your KhairoDietClinic medical review meeting has been scheduled.</p>
       <p><strong>When:</strong> ${escapeHtml(when)}<br>
       <strong>Format:</strong> ${escapeHtml(provider)}</p>
       <p><a href="${escapeHtml(meetingUrl)}">Join video meeting</a></p>
-      <p>If you need to reschedule, please contact the Khairo Diet Clinic team.</p>
+      <p>If you need to reschedule, please contact the KhairoDietClinic team.</p>
     `,
   });
 

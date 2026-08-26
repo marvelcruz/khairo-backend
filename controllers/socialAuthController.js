@@ -41,9 +41,9 @@ async function sendSocialClientWelcomeEmail(client) {
   try {
     await sendEmail({
       to: client.email,
-      subject: "Welcome to Khairo Diet Clinic",
-      text: `Hi ${client.fullName},\n\nYour Khairo Diet Clinic portal account is ready.\n\nYou can sign in anytime using the Google or Apple option on the portal login page.\n\n— Khairo Diet Clinic`,
-      html: `<div style="font-family:sans-serif;background:#0a0a0a;padding:32px;color:#f5f5f5;"><div style="max-width:480px;margin:0 auto;background:#171717;border:1px solid #262626;border-radius:14px;padding:28px;"><h2 style="margin:0 0 10px;color:#ff76c5;">Welcome to Khairo Diet Clinic</h2><p style="margin:0 0 12px;">Hi ${client.fullName},</p><p style="margin:0 0 12px;color:#d4d4d4;">Your Khairo Diet Clinic portal account is ready.</p><p style="margin:0;color:#d4d4d4;">You can sign in anytime using <strong>Google</strong> or <strong>Apple</strong> from the portal login page.</p><p style="margin-top:24px;color:#737373;font-size:12px;">— Khairo Diet Clinic</p></div></div>`,
+      subject: "Welcome to KhairoDietClinic",
+      text: `Hi ${client.fullName},\n\nYour KhairoDietClinic portal account is ready.\n\nYou can sign in anytime using the Google or Apple option on the portal login page.\n\n— KhairoDietClinic`,
+      html: `<div style="font-family:sans-serif;background:#0a0a0a;padding:32px;color:#f5f5f5;"><div style="max-width:480px;margin:0 auto;background:#171717;border:1px solid #262626;border-radius:14px;padding:28px;"><h2 style="margin:0 0 10px;color:#ff76c5;">Welcome to KhairoDietClinic</h2><p style="margin:0 0 12px;">Hi ${client.fullName},</p><p style="margin:0 0 12px;color:#d4d4d4;">Your KhairoDietClinic portal account is ready.</p><p style="margin:0;color:#d4d4d4;">You can sign in anytime using <strong>Google</strong> or <strong>Apple</strong> from the portal login page.</p><p style="margin-top:24px;color:#737373;font-size:12px;">— KhairoDietClinic</p></div></div>`,
     });
   } catch (error) {
     console.error("Social client welcome email failed:", error?.message || error);
@@ -323,7 +323,7 @@ export const clientAppleCallback = async (req, res) => {
 
     if (!client) {
       client = await Client.create({
-        fullName: email ? email.split("@")[0] : "Khairo Diet Clinic Client",
+        fullName: email ? email.split("@")[0] : "KhairoDietClinic Client",
         email,
         phone: "0000000000",
         appleId: sub,

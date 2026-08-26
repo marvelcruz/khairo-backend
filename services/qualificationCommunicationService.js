@@ -18,22 +18,22 @@ function messageForDecision({ fullName, result, disposition }) {
   if (result === "qualified") {
     return {
       key: "qualified",
-      subject: "Your next Khairo Diet Clinic step",
+      subject: "Your next KhairoDietClinic step",
       text:
-        `Hi ${firstName},\n\nThanks for completing your Khairo Diet Clinic application. You are ready for the next step, and a Khairo Diet Clinic team member can help you move forward.\n\nWe look forward to speaking with you.\n\nKhairo Diet Clinic`,
+        `Hi ${firstName},\n\nThanks for completing your KhairoDietClinic application. You are ready for the next step, and a KhairoDietClinic team member can help you move forward.\n\nWe look forward to speaking with you.\n\nKhairoDietClinic`,
       html:
-        `<p>Hi ${safeName},</p><p>Thanks for completing your Khairo Diet Clinic application. You are ready for the next step, and a Khairo Diet Clinic team member can help you move forward.</p><p>We look forward to speaking with you.</p><p>Khairo Diet Clinic</p>`,
+        `<p>Hi ${safeName},</p><p>Thanks for completing your KhairoDietClinic application. You are ready for the next step, and a KhairoDietClinic team member can help you move forward.</p><p>We look forward to speaking with you.</p><p>KhairoDietClinic</p>`,
     };
   }
 
   if (result === "not_qualified" && disposition === "nurture") {
     return {
       key: "nurture",
-      subject: "Your Khairo Diet Clinic application",
+      subject: "Your KhairoDietClinic application",
       text:
-        `Hi ${firstName},\n\nThanks for completing your Khairo Diet Clinic application. It sounds like now may not be the right time to take the next step. That is completely fine — you can reconnect with Khairo Diet Clinic when you are ready.\n\nWe appreciate your interest.\n\nKhairo Diet Clinic`,
+        `Hi ${firstName},\n\nThanks for completing your KhairoDietClinic application. It sounds like now may not be the right time to take the next step. That is completely fine — you can reconnect with KhairoDietClinic when you are ready.\n\nWe appreciate your interest.\n\nKhairoDietClinic`,
       html:
-        `<p>Hi ${safeName},</p><p>Thanks for completing your Khairo Diet Clinic application. It sounds like now may not be the right time to take the next step. That is completely fine — you can reconnect with Khairo Diet Clinic when you are ready.</p><p>We appreciate your interest.</p><p>Khairo Diet Clinic</p>`,
+        `<p>Hi ${safeName},</p><p>Thanks for completing your KhairoDietClinic application. It sounds like now may not be the right time to take the next step. That is completely fine — you can reconnect with KhairoDietClinic when you are ready.</p><p>We appreciate your interest.</p><p>KhairoDietClinic</p>`,
     };
   }
 

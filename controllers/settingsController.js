@@ -7,7 +7,7 @@ const BUSINESS_KEY = "business";
 const DEFAULT_BUSINESS_SETTINGS = {
   key: BUSINESS_KEY,
   profile: {
-    displayName: "Khairo Diet Clinic",
+    displayName: "KhairoDietClinic",
     legalName: "",
     email: "",
     phone: "",
@@ -24,10 +24,10 @@ const DEFAULT_BUSINESS_SETTINGS = {
   },
   branding: {
     primaryColor: "#EC008C",
-    publicName: "Khairo Diet Clinic",
+    publicName: "KhairoDietClinic",
   },
   communication: {
-    senderName: "Khairo Diet Clinic",
+    senderName: "KhairoDietClinic",
     replyToEmail: "",
     whatsappNumber: "",
     supportPhone: "",
@@ -54,7 +54,7 @@ const DEFAULT_BUSINESS_SETTINGS = {
     oneClickRenewalEnabled: false,
     giftCardsEnabled: false,
     upsellsEnabled: false,
-    winBackMessage: "We miss you! Here is a special offer to rejoin Khairo Diet Clinic.",
+    winBackMessage: "We miss you! Here is a special offer to rejoin KhairoDietClinic.",
   },
 
   operations: {

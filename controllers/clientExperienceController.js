@@ -672,7 +672,7 @@ export const getNotifications =
                 : "s"
             }`,
           body:
-            "Your Khairo Diet Clinic team has replied.",
+            "Your KhairoDietClinic team has replied.",
           href:
             "/portal/messages",
         });
@@ -769,7 +769,7 @@ export const staffReply =
             "staff",
           senderName:
             req.user?.name ||
-            "Khairo Diet Clinic Team",
+            "KhairoDietClinic Team",
           category:
             req.body.category ||
             "general",

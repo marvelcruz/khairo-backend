@@ -1,6 +1,6 @@
-# Khairo Diet Clinic Data Governance
+# KhairoDietClinic Data Governance
 
-This document defines how Khairo Diet Clinic handles CRM, client, clinical, payment, and communication data.
+This document defines how KhairoDietClinic handles CRM, client, clinical, payment, and communication data.
 
 ## Scope
 

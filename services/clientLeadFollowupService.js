@@ -54,7 +54,7 @@ export async function ensurePortalSignupFollowUp(client) {
       opportunity,
       type: "task",
       subject: "Follow up with portal signup",
-      body: `${contact.fullName} created or used a client portal account but is not yet an active Khairo Diet Clinic client. Contact them to see if they need help choosing a program.`,
+      body: `${contact.fullName} created or used a client portal account but is not yet an active KhairoDietClinic client. Contact them to see if they need help choosing a program.`,
       dueAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
       assignedTo: opportunity?.assignedTo || contact.assignedTo,
       metadata: {

@@ -26,9 +26,9 @@ async function sendClientWeek3Reminder({ client, contact, opportunity }) {
     try {
       await sendEmail({
         to: contact.email,
-        subject: "Your Khairo Diet Clinic Week 3 check-in is here",
-        text: `Hi ${client.fullName},\n\nYou've completed 3 weeks of your Khairo Diet Clinic program. It's time for your Week 3 review. Please keep an eye out for your coach's check-in, or contact us if you need anything.\n\n— Khairo Diet Clinic`,
-        html: `<p>Hi ${client.fullName},</p><p>You've completed 3 weeks of your Khairo Diet Clinic program. It's time for your Week 3 review.</p><p>Please keep an eye out for your coach's check-in, or contact us if you need anything.</p><p>— Khairo Diet Clinic</p>`,
+        subject: "Your KhairoDietClinic Week 3 check-in is here",
+        text: `Hi ${client.fullName},\n\nYou've completed 3 weeks of your KhairoDietClinic program. It's time for your Week 3 review. Please keep an eye out for your coach's check-in, or contact us if you need anything.\n\n— KhairoDietClinic`,
+        html: `<p>Hi ${client.fullName},</p><p>You've completed 3 weeks of your KhairoDietClinic program. It's time for your Week 3 review.</p><p>Please keep an eye out for your coach's check-in, or contact us if you need anything.</p><p>— KhairoDietClinic</p>`,
       });
       delivery = "delivered";
     } catch (err) {

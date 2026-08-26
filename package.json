@@ -2,7 +2,7 @@
   "name": "khairo-backend",
   "version": "1.0.0",
   "private": true,
-  "description": "Khairo Diet Clinic weight-loss program backend - intake, staff dashboard, client portal",
+  "description": "KhairoDietClinic weight-loss program backend - intake, staff dashboard, client portal",
   "type": "module",
   "main": "server.js",
   "scripts": {

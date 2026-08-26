@@ -147,7 +147,7 @@ function alertEmailHtml(alert, urgent = false) {
           font-size:15px;
         ">
           Please review the application and take the appropriate
-          next action in Khairo Diet Clinic.
+          next action in KhairoDietClinic.
         </p>
 
         <div style="
@@ -221,7 +221,7 @@ function alertEmailHtml(alert, urgent = false) {
           color:#71717a;
           font-size:12px;
         ">
-          Khairo Diet Clinic Action Centre
+          KhairoDietClinic Action Centre
         </p>
       </div>
     </div>
@@ -256,7 +256,7 @@ async function sendAlertEmail(
           `Applicant: ${alert.subject?.name || ""}\n` +
           `Email: ${alert.subject?.email || ""}\n` +
           `Phone: ${alert.subject?.phone || ""}\n\n` +
-          `Khairo Diet Clinic Action Centre`,
+          `KhairoDietClinic Action Centre`,
       });
 
       sent += 1;
@@ -333,7 +333,7 @@ async function performApplicationScan({
       context:
         application.programInterest
           ? `Programme: ${application.programInterest}`
-          : "Khairo Diet Clinic application",
+          : "KhairoDietClinic application",
     };
 
     const payload = {

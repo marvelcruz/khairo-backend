@@ -17,7 +17,7 @@ const run = async () => {
   }
 
   console.log(
-    "Connecting Khairo Diet Clinic to Instagram..."
+    "Connecting KhairoDietClinic to Instagram..."
   );
 
   const instagram =
@@ -150,7 +150,7 @@ const run = async () => {
     `Instagram ID:   ${userId}`
   );
   console.log(
-    `Khairo Diet Clinic ID:    ${account._id}`
+    `KhairoDietClinic ID:    ${account._id}`
   );
   console.log(
     `Status:         ${account.status}`

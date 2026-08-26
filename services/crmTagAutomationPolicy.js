@@ -14,7 +14,7 @@ export const AUTOMATION_TAG_DEFINITIONS = {
   website_lead: {
     name: "Website Lead",
     category: "source",
-    description: "Automatically applied when a lead enters through a Khairo Diet Clinic website or public form.",
+    description: "Automatically applied when a lead enters through a KhairoDietClinic website or public form.",
     automationRule: "source:website",
   },
   referral_lead: {

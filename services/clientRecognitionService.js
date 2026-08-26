@@ -30,7 +30,7 @@ async function sendPortalRecognition(client, body) {
   await ClientMessage.create({
     client: client._id,
     senderType: "staff",
-    senderName: "Khairo Diet Clinic Team",
+    senderName: "KhairoDietClinic Team",
     category: "general",
     body,
     readByClient: false,
@@ -120,7 +120,7 @@ export async function recognizeEngagementRecovery(client) {
 
   await sendPortalRecognition(
     client,
-    "Nice work getting back on track. Your recent Khairo Diet Clinic activity is current again — keep building from here."
+    "Nice work getting back on track. Your recent KhairoDietClinic activity is current again — keep building from here."
   );
 
   await AuditLog.create({

@@ -64,7 +64,7 @@ const cleanEmail = (value = "") => String(value || "").trim().toLowerCase();
 const cleanPhone = (value = "") => String(value || "").trim();
 const normalizedPhone = (value = "") => cleanPhone(value).replace(/\D/g, "");
 
-const opportunityName = (contact) => `${contact.fullName} — Khairo Diet Clinic membership`;
+const opportunityName = (contact) => `${contact.fullName} — KhairoDietClinic membership`;
 
 async function chooseLeastLoadedAssignableUser(users) {
   if (!Array.isArray(users) || users.length === 0) return undefined;
@@ -575,7 +575,7 @@ export async function syncApplicationToCrm(application, actor = {}) {
       opportunity,
       type: "application",
       subject: "Application submitted",
-      body: `${application.fullName} entered the Khairo Diet Clinic Requests workflow.`,
+      body: `${application.fullName} entered the KhairoDietClinic Requests workflow.`,
       createdBy: actor.userId,
       metadata: {
         applicationId: application._id.toString(),
@@ -675,7 +675,7 @@ export async function syncClientToCrm(client, application, actor = {}) {
       opportunity,
       type: "system",
       subject: "Became a client",
-      body: `${client.fullName} completed the enrollment workflow and became a Khairo Diet Clinic client.`,
+      body: `${client.fullName} completed the enrollment workflow and became a KhairoDietClinic client.`,
       createdBy: actor.userId,
       metadata: {
         event: "became_client",

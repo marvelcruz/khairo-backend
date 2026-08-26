@@ -58,7 +58,7 @@ async function sendManagerEscalationEmail(alert) {
   try {
     await sendEmail({
       to,
-      subject: `Khairo Diet Clinic SLA manager escalation: ${alert.title}`,
+      subject: `KhairoDietClinic SLA manager escalation: ${alert.title}`,
       text: `This action centre alert has exceeded the manager escalation threshold.\n\nAlert: ${alert.title}\nSummary: ${alert.summary}\nRecommended action: ${alert.recommendedAction}\n\nPlease review immediately.`,
       html: `<p>This action centre alert has exceeded the manager escalation threshold.</p><p><strong>${alert.title}</strong></p><p>${alert.summary}</p><p>${alert.recommendedAction}</p>`,
     });

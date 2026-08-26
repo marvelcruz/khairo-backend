@@ -13,7 +13,7 @@ const businessSettingsSchema = new mongoose.Schema(
       displayName: {
         type: String,
         trim: true,
-        default: "Khairo Diet Clinic",
+        default: "KhairoDietClinic",
         maxlength: 120,
       },
       legalName: {
@@ -98,7 +98,7 @@ const businessSettingsSchema = new mongoose.Schema(
       publicName: {
         type: String,
         trim: true,
-        default: "Khairo Diet Clinic",
+        default: "KhairoDietClinic",
         maxlength: 120,
       },
     },
@@ -107,7 +107,7 @@ const businessSettingsSchema = new mongoose.Schema(
       senderName: {
         type: String,
         trim: true,
-        default: "Khairo Diet Clinic",
+        default: "KhairoDietClinic",
         maxlength: 120,
       },
       replyToEmail: {
@@ -229,7 +229,7 @@ const businessSettingsSchema = new mongoose.Schema(
         type: String,
         trim: true,
         maxlength: 1000,
-        default: "We miss you! Here is a special offer to rejoin Khairo Diet Clinic.",
+        default: "We miss you! Here is a special offer to rejoin KhairoDietClinic.",
       },
     },
 

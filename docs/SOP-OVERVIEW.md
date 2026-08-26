@@ -1,4 +1,4 @@
-# Khairo Diet Clinic Standard Operating Procedures — Overview
+# KhairoDietClinic Standard Operating Procedures — Overview
 
 This document outlines the core operational SOPs by role.
 

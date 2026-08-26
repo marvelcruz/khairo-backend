@@ -29,20 +29,20 @@ function recoveryMessage({ purpose, displayName, link }) {
 
   if (purpose === "portal_activation") {
     return {
-      subject: "Activate your Khairo Diet Clinic account",
+      subject: "Activate your KhairoDietClinic account",
       text:
-        `Hi ${firstName},\n\nUse this secure link to activate your Khairo Diet Clinic account. The link expires in 24 hours:\n${link}\n\nIf you did not request this, you can ignore this email.\n\nKhairo Diet Clinic`,
+        `Hi ${firstName},\n\nUse this secure link to activate your KhairoDietClinic account. The link expires in 24 hours:\n${link}\n\nIf you did not request this, you can ignore this email.\n\nKhairoDietClinic`,
       html:
-        `<p>Hi ${safeName},</p><p>Use the secure link below to activate your Khairo Diet Clinic account. The link expires in 24 hours.</p><p><a href="${safeLink}">Activate my Khairo Diet Clinic account</a></p><p>If you did not request this, you can ignore this email.</p><p>Khairo Diet Clinic</p>`,
+        `<p>Hi ${safeName},</p><p>Use the secure link below to activate your KhairoDietClinic account. The link expires in 24 hours.</p><p><a href="${safeLink}">Activate my KhairoDietClinic account</a></p><p>If you did not request this, you can ignore this email.</p><p>KhairoDietClinic</p>`,
     };
   }
 
   return {
-    subject: "Reset your Khairo Diet Clinic password",
+    subject: "Reset your KhairoDietClinic password",
     text:
-      `Hi ${firstName},\n\nUse this secure link to reset your Khairo Diet Clinic password. The link expires in 30 minutes:\n${link}\n\nIf you did not request this, you can ignore this email.\n\nKhairo Diet Clinic`,
+      `Hi ${firstName},\n\nUse this secure link to reset your KhairoDietClinic password. The link expires in 30 minutes:\n${link}\n\nIf you did not request this, you can ignore this email.\n\nKhairoDietClinic`,
     html:
-      `<p>Hi ${safeName},</p><p>Use the secure link below to reset your Khairo Diet Clinic password. The link expires in 30 minutes.</p><p><a href="${safeLink}">Reset my Khairo Diet Clinic password</a></p><p>If you did not request this, you can ignore this email.</p><p>Khairo Diet Clinic</p>`,
+      `<p>Hi ${safeName},</p><p>Use the secure link below to reset your KhairoDietClinic password. The link expires in 30 minutes.</p><p><a href="${safeLink}">Reset my KhairoDietClinic password</a></p><p>If you did not request this, you can ignore this email.</p><p>KhairoDietClinic</p>`,
   };
 }
 

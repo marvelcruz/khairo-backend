@@ -63,7 +63,7 @@ export async function buildClientOnboardingChecklist(client) {
     {
       key: "account_created",
       title: "Account created",
-      description: "Client record exists in Khairo Diet Clinic.",
+      description: "Client record exists in KhairoDietClinic.",
       complete: Boolean(client._id),
     },
     {

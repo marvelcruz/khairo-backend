@@ -288,7 +288,7 @@ async function sendWhatsAppText(client, text) {
 async function sendEmailNudge(client, text) {
   if (!client.email || !isEmailConfigured()) return false;
   const first = String(client.fullName || "there").trim().split(/\s+/)[0] || "there";
-  const html = `<div style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;background:#0a0a0a;padding:32px;color:#f5f5f5;"><div style="max-width:520px;margin:0 auto;background:#171717;border:1px solid #262626;border-radius:8px;padding:32px;"><p style="margin:0 0 16px;">Hi ${first},</p><p style="margin:0;font-size:15px;line-height:1.6;color:#d4d4d4;">${text.replace(`Hi ${first}, `, "")}</p><p style="margin:24px 0 0;font-size:12px;color:#737373;">Khairo Diet Clinic</p></div></div>`;
+  const html = `<div style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;background:#0a0a0a;padding:32px;color:#f5f5f5;"><div style="max-width:520px;margin:0 auto;background:#171717;border:1px solid #262626;border-radius:8px;padding:32px;"><p style="margin:0 0 16px;">Hi ${first},</p><p style="margin:0;font-size:15px;line-height:1.6;color:#d4d4d4;">${text.replace(`Hi ${first}, `, "")}</p><p style="margin:24px 0 0;font-size:12px;color:#737373;">KhairoDietClinic</p></div></div>`;
   await sendEmail({
     to: client.email,
     subject: `Just checking in, ${first}`,

@@ -1,4 +1,4 @@
-# Khairo Diet Clinic Production Hardening
+# KhairoDietClinic Production Hardening
 
 ## Health Endpoints
 

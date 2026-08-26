@@ -66,7 +66,7 @@ const templates = [
       {
         type: "send_email",
         config: {
-          subject: "Your Khairo Diet Clinic consultation is booked",
+          subject: "Your KhairoDietClinic consultation is booked",
           body: "Hi {{contact.name}}, your consultation is confirmed. We'll remind you closer to the appointment.",
         },
       },

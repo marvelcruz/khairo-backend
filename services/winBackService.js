@@ -19,11 +19,11 @@ function buildOfferText(settings) {
 }
 
 async function sendWinBackOffer(client, settings) {
-  const subject = "Your Khairo Diet Clinic win-back offer";
+  const subject = "Your KhairoDietClinic win-back offer";
   const offerText = buildOfferText(settings);
   const message = settings.winBackMessage || "We miss you!";
-  const text = `Hi ${client.fullName},\n\n${message}\n\n${offerText}.\n\nIf you have any questions, just reply and we'll help.\n\n- Khairo Diet Clinic`;
-  const html = `<p>Hi ${client.fullName},</p><p>${message}</p><p><strong>${offerText}.</strong></p><p>If you have any questions, just reply and we'll help.</p><p>- Khairo Diet Clinic</p>`;
+  const text = `Hi ${client.fullName},\n\n${message}\n\n${offerText}.\n\nIf you have any questions, just reply and we'll help.\n\n- KhairoDietClinic`;
+  const html = `<p>Hi ${client.fullName},</p><p>${message}</p><p><strong>${offerText}.</strong></p><p>If you have any questions, just reply and we'll help.</p><p>- KhairoDietClinic</p>`;
 
   let emailStatus = "skipped";
 

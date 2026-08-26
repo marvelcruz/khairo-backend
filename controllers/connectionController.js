@@ -52,7 +52,7 @@ function safeConnection(account) {
 async function syncInstagramRuntime({ selected, accessToken, expiresIn }) {
   if (!selected?.id || !accessToken) return;
 
-  // Khairo Diet Clinic currently uses one Instagram publishing identity. Archive stale
+  // KhairoDietClinic currently uses one Instagram publishing identity. Archive stale
   // runtime records so the established token store always resolves the account
   // the staff member just connected.
   await SocialAccount.updateMany(

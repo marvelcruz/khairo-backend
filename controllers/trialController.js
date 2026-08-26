@@ -23,7 +23,7 @@ const registrationErrorResponse = (res, code) => {
     EVENT_CLOSED: [409, "Registration for this trial event is closed."],
     EVENT_FULL: [409, "This trial event is full."],
     DUPLICATE: [409, "This email is already registered for the event."],
-    ALREADY_ENROLLED: [409, "This person is already an enrolled Khairo Diet Clinic client."],
+    ALREADY_ENROLLED: [409, "This person is already an enrolled KhairoDietClinic client."],
   };
 
   const [status, message] =
@@ -445,7 +445,7 @@ export const registerForEvent = async (req, res, next) => {
     res.json({
       success: true,
       message:
-        "Registered. Your details are now in the Khairo Diet Clinic requests pipeline.",
+        "Registered. Your details are now in the KhairoDietClinic requests pipeline.",
     });
   } catch (err) {
     if (err?.trialRegistrationCode) {
@@ -529,7 +529,7 @@ export const markAttended = async (req, res, next) => {
       "/pricing";
 
     const text = encodeURIComponent(
-      `Hi ${first}! Thanks for joining our Khairo Diet Clinic trial session. Your details are already with our team and we'll follow up with the next enrollment step. You can review the Khairo Diet Clinic programs here: ${pricingUrl}`
+      `Hi ${first}! Thanks for joining our KhairoDietClinic trial session. Your details are already with our team and we'll follow up with the next enrollment step. You can review the KhairoDietClinic programs here: ${pricingUrl}`
     );
 
     const waLink = phone

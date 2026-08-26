@@ -532,7 +532,7 @@ async function executeAction(action, context, workflow) {
 
   if (action.type === "send_portal_message") {
     if (!contact.client || !mongoose.isValidObjectId(contact.client)) {
-      throw new Error("CRM contact is not linked to a Khairo Diet Clinic client portal account.");
+      throw new Error("CRM contact is not linked to a KhairoDietClinic client portal account.");
     }
     const client = await Client.findOne({ _id: contact.client, isArchived: { $ne: true } }).select("_id portalActive").lean();
     if (!client || client.portalActive !== true) {
@@ -545,7 +545,7 @@ async function executeAction(action, context, workflow) {
     await ClientMessage.create({
       client: client._id,
       senderType: "staff",
-      senderName: asString(config.senderName) || "Khairo Diet Clinic Team",
+      senderName: asString(config.senderName) || "KhairoDietClinic Team",
       category,
       body,
       readByClient: false,
@@ -649,7 +649,7 @@ async function sendWorkflowFailureAlert(workflow, run) {
   try {
     await sendEmail({
       to,
-      subject: `Khairo Diet Clinic workflow failed: ${workflow.name}`,
+      subject: `KhairoDietClinic workflow failed: ${workflow.name}`,
       text: `Workflow "${workflow.name}" finished with status ${run.status}.\n\nFailed steps:\n${failedText}`,
       html: `<div style="font-family:sans-serif;background:#0a0a0a;padding:24px;color:#f5f5f5;"><div style="max-width:520px;margin:0 auto;background:#171717;border:1px solid #7f1d1d;border-radius:10px;padding:24px;"><h2 style="margin:0 0 8px;color:#fca5a5;">Workflow failed: ${workflow.name}</h2><p style="margin:0 0 12px;">Run ID: <strong>${run._id}</strong></p><ul style="padding-left:18px;margin:0;">${failures.map((step) => `<li style="margin-bottom:6px;"><strong>${step.actionType}</strong>: ${step.message}</li>`).join("")}</ul></div></div>`,
     });

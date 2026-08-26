@@ -59,9 +59,9 @@ async function sendReminder({ opportunity, contact, window }) {
     try {
       await sendEmail({
         to: contact.email,
-        subject: `Khairo Diet Clinic consultation reminder — ${when}`,
-        text: `Hi ${contact.fullName},\n\nThis is a reminder that your Khairo Diet Clinic consultation is ${window.label}, on ${when}.\nFormat: ${channel}.${location ? `\nLocation/link: ${location}` : ""}\n\nIf you need to change the appointment, please contact the Khairo Diet Clinic team.`,
-        html: `<p>Hi ${escapeHtml(contact.fullName)},</p><p>This is a reminder that your Khairo Diet Clinic consultation is <strong>${escapeHtml(window.label)}</strong>, on <strong>${escapeHtml(when)}</strong>.</p><p><strong>Format:</strong> ${escapeHtml(channel)}${location ? `<br><strong>Location/link:</strong> ${escapeHtml(location)}` : ""}</p><p>If you need to change the appointment, please contact the Khairo Diet Clinic team.</p>`,
+        subject: `KhairoDietClinic consultation reminder — ${when}`,
+        text: `Hi ${contact.fullName},\n\nThis is a reminder that your KhairoDietClinic consultation is ${window.label}, on ${when}.\nFormat: ${channel}.${location ? `\nLocation/link: ${location}` : ""}\n\nIf you need to change the appointment, please contact the KhairoDietClinic team.`,
+        html: `<p>Hi ${escapeHtml(contact.fullName)},</p><p>This is a reminder that your KhairoDietClinic consultation is <strong>${escapeHtml(window.label)}</strong>, on <strong>${escapeHtml(when)}</strong>.</p><p><strong>Format:</strong> ${escapeHtml(channel)}${location ? `<br><strong>Location/link:</strong> ${escapeHtml(location)}` : ""}</p><p>If you need to change the appointment, please contact the KhairoDietClinic team.</p>`,
       });
       delivery = "delivered";
     } catch (err) {

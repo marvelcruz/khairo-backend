@@ -355,9 +355,9 @@ export const setSessionStatus = async (req, res, next) => {
 
           await sendEmail({
             to: client.email,
-            subject: `Your ${session.sessionType} session is confirmed — Khairo Diet Clinic`,
+            subject: `Your ${session.sessionType} session is confirmed — KhairoDietClinic`,
             html,
-            text: `Hi ${client.fullName},\n\nYour ${session.sessionType} session is confirmed:\n\nDate: ${dateStr}\nTime: ${timeStr}${staff ? `\nWith: ${staff.name}` : ""}${session.zoomLink ? `\nJoin: ${session.zoomLink}` : ""}\n\nWe'll see you soon!\n\n— Khairo Diet Clinic`
+            text: `Hi ${client.fullName},\n\nYour ${session.sessionType} session is confirmed:\n\nDate: ${dateStr}\nTime: ${timeStr}${staff ? `\nWith: ${staff.name}` : ""}${session.zoomLink ? `\nJoin: ${session.zoomLink}` : ""}\n\nWe'll see you soon!\n\n— KhairoDietClinic`
           });
           await logAudit(req, "Emailed session confirmation", "Client", client._id, client.fullName);
         }

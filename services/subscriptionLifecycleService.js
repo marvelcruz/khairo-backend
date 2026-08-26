@@ -26,9 +26,9 @@ async function notifyGracePeriod(subscription, client) {
   try {
     await sendEmail({
       to: client.email,
-      subject: "Your Khairo Diet Clinic programme is now in grace period",
-      text: `Hi ${client.fullName},\n\nYour Khairo Diet Clinic programme ended on ${endDate}. You are now in a short grace period. Complete a renewal payment to continue access without interruption.\n\nIf you have already paid, please ignore this message.\n\n- Khairo Diet Clinic`,
-      html: `<p>Hi ${client.fullName},</p><p>Your Khairo Diet Clinic programme ended on <strong>${endDate}</strong>.</p><p>You are now in a short grace period. Complete a renewal payment to continue access without interruption.</p><p>If you have already paid, please ignore this message.</p><p>- Khairo Diet Clinic</p>`,
+      subject: "Your KhairoDietClinic programme is now in grace period",
+      text: `Hi ${client.fullName},\n\nYour KhairoDietClinic programme ended on ${endDate}. You are now in a short grace period. Complete a renewal payment to continue access without interruption.\n\nIf you have already paid, please ignore this message.\n\n- KhairoDietClinic`,
+      html: `<p>Hi ${client.fullName},</p><p>Your KhairoDietClinic programme ended on <strong>${endDate}</strong>.</p><p>You are now in a short grace period. Complete a renewal payment to continue access without interruption.</p><p>If you have already paid, please ignore this message.</p><p>- KhairoDietClinic</p>`,
     });
   } catch (error) {
     console.error("Grace period notification failed:", error?.message || error);

@@ -10,12 +10,12 @@ import { dispatchCrmTagChange } from "./crmTagWorkflowService.js";
 const DEFINITIONS = {
   portal_activated: {
     name: "Portal Activated",
-    description: "Permanent milestone showing that the client activated their Khairo Diet Clinic portal account.",
+    description: "Permanent milestone showing that the client activated their KhairoDietClinic portal account.",
     automationRule: "milestone:portal_activated",
   },
   portal_login_recorded: {
     name: "Portal Login Recorded",
-    description: "Permanent milestone showing that the client has signed in to the Khairo Diet Clinic portal.",
+    description: "Permanent milestone showing that the client has signed in to the KhairoDietClinic portal.",
     automationRule: "milestone:portal_login_recorded",
   },
   weekly_checkin_started: {
@@ -35,7 +35,7 @@ const DEFINITIONS = {
   },
   client_messaging_started: {
     name: "Client Messaging Started",
-    description: "Permanent milestone showing that the client has sent at least one portal message to the Khairo Diet Clinic team.",
+    description: "Permanent milestone showing that the client has sent at least one portal message to the KhairoDietClinic team.",
     automationRule: "milestone:client_messaging_started",
   },
   appointment_requested: {

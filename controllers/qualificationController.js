@@ -67,7 +67,7 @@ function qualificationV1Recommendation(rawAnswers) {
     throw badRequest("Answer when the applicant would ideally like to get started.");
   }
   if (!READY_TO_SPEAK.includes(readyToSpeak)) {
-    throw badRequest("Answer whether the applicant is ready to speak with Khairo Diet Clinic about the next step.");
+    throw badRequest("Answer whether the applicant is ready to speak with KhairoDietClinic about the next step.");
   }
 
   if (readyToSpeak === "yes" && READY_START_TIMELINES.has(startTimeline)) {
@@ -76,7 +76,7 @@ function qualificationV1Recommendation(rawAnswers) {
       disposition: "none",
       label: "Qualified",
       reasons: [
-        "Ready to speak with Khairo Diet Clinic about the next step",
+        "Ready to speak with KhairoDietClinic about the next step",
         "Wants to start within one month",
       ],
     };
@@ -89,7 +89,7 @@ function qualificationV1Recommendation(rawAnswers) {
       label: "Nurture",
       reasons: [
         readyToSpeak === "not_yet"
-          ? "Not ready to speak with Khairo Diet Clinic yet"
+          ? "Not ready to speak with KhairoDietClinic yet"
           : "Still exploring timing and has questions before the next step",
       ],
     };

@@ -1,4 +1,4 @@
-# Khairo Diet Clinic Production Handover Summary
+# KhairoDietClinic Production Handover Summary
 
 ## Live URLs
 

@@ -183,7 +183,7 @@ export const initializePayment = async (req, res, next) => {
       if (finalAmount <= 0) {
         return res.status(400).json({
           success: false,
-          message: "This gift card covers the full amount. Please contact Khairo Diet Clinic to redeem it manually.",
+          message: "This gift card covers the full amount. Please contact KhairoDietClinic to redeem it manually.",
         });
       }
     }
@@ -836,9 +836,9 @@ export const emailPaymentLink = async (req, res, next) => {
 
     await sendEmail({
       to: client.email,
-      subject: `Your ${client.program} renewal — Khairo Diet Clinic`,
+      subject: `Your ${client.program} renewal — KhairoDietClinic`,
       html,
-      text: `Hi ${client.fullName},\n\nYour ${client.program} program renewal is ready. Pay ₦${formattedAmount} here:\n${link}\n\n— Khairo Diet Clinic`,
+      text: `Hi ${client.fullName},\n\nYour ${client.program} program renewal is ready. Pay ₦${formattedAmount} here:\n${link}\n\n— KhairoDietClinic`,
     });
 
     await logAudit(req, "Emailed payment link", "Client", client._id, client.fullName);

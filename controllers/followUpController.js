@@ -126,7 +126,7 @@ export const getQueue = async (req, res, next) => {
       const days = Math.floor((now - new Date(c.createdAt)) / 86400000);
       const phone = (c.phone || "").replace(/\D/g, "");
       const first = (c.fullName || "").split(" ")[0];
-      const text = encodeURIComponent(`Hi ${first}!  Your Khairo Diet Clinic spot is waiting. Complete payment to unlock your portal: ${payLink}`);
+      const text = encodeURIComponent(`Hi ${first}!  Your KhairoDietClinic spot is waiting. Complete payment to unlock your portal: ${payLink}`);
       return {
         id: c._id, name: c.fullName, phone: c.phone, days,
         activated: !!c.portalActive, status: c.status || "pending",

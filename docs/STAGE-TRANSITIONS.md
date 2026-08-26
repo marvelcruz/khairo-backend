@@ -1,4 +1,4 @@
-# Khairo Diet Clinic CRM Stage Transition Matrix
+# KhairoDietClinic CRM Stage Transition Matrix
 
 This document describes the allowed sales-pipeline stage transitions, who or what can make them, and the regression protections in place.
 

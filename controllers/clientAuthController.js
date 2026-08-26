@@ -262,7 +262,7 @@ export const registerPreviewAccount =
             .json({
               success: false,
               message:
-                "The phone number does not match the Khairo Diet Clinic record for this email.",
+                "The phone number does not match the KhairoDietClinic record for this email.",
             });
         }
 
@@ -407,7 +407,7 @@ export const activatePortal =
           .json({
             success: false,
             message:
-              "No existing Khairo Diet Clinic client record was found with that email.",
+              "No existing KhairoDietClinic client record was found with that email.",
           });
       }
 

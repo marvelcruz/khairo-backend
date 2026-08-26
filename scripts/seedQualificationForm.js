@@ -9,10 +9,10 @@ await connectDB();
 
 try {
   const formConfig = {
-    name: "Khairo Diet Clinic Qualification Form",
+    name: "KhairoDietClinic Qualification Form",
     slug: "khairo-qualification",
     description:
-      "Tell us a little about yourself and what you would like Khairo Diet Clinic to help you achieve. This should take about 2 minutes.",
+      "Tell us a little about yourself and what you would like KhairoDietClinic to help you achieve. This should take about 2 minutes.",
     status: "published",
     visibility: "public",
     targetEntityType: "crm_contact",
@@ -54,13 +54,13 @@ try {
         kind: "field",
         source: "standard",
         standardKey: "programInterest",
-        label: "Which Khairo Diet Clinic programme are you interested in?",
+        label: "Which KhairoDietClinic programme are you interested in?",
       },
       {
         kind: "field",
         source: "standard",
         standardKey: "goals",
-        label: "What would you most like Khairo Diet Clinic to help you achieve?",
+        label: "What would you most like KhairoDietClinic to help you achieve?",
         required: true,
       },
       {
@@ -83,7 +83,7 @@ try {
         source: "standard",
         standardKey: "readyToSpeak",
         label:
-          "Are you ready to speak with a Khairo Diet Clinic team member about the next step?",
+          "Are you ready to speak with a KhairoDietClinic team member about the next step?",
         required: true,
       },
     ],

@@ -22,7 +22,7 @@ async function refreshAccessToken(account) {
   const clientSecret = String(process.env.GOOGLE_OAUTH_CLIENT_SECRET || "").trim();
 
   if (!refreshToken || !clientId || !clientSecret) {
-    const error = new Error("Reconnect Gmail in Khairo Diet Clinic Setup.");
+    const error = new Error("Reconnect Gmail in KhairoDietClinic Setup.");
     error.code = "GMAIL_RECONNECT_REQUIRED";
     throw error;
   }
@@ -47,7 +47,7 @@ async function refreshAccessToken(account) {
       data?.error_description || "Gmail needs to be reconnected.";
     await account.save();
 
-    const error = new Error("Gmail needs to be reconnected in Khairo Diet Clinic Setup.");
+    const error = new Error("Gmail needs to be reconnected in KhairoDietClinic Setup.");
     error.code = "GMAIL_RECONNECT_REQUIRED";
     throw error;
   }

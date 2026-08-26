@@ -1,4 +1,4 @@
-# Khairo Diet Clinic Production Launch Checklist
+# KhairoDietClinic Production Launch Checklist
 
 Use this checklist before declaring the system ready for production.
 

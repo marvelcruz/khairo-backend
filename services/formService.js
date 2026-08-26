@@ -31,7 +31,7 @@ export const STANDARD_FORM_FIELDS = {
     ],
   },
   readyToSpeak: {
-    label: "Are you ready to speak with a Khairo Diet Clinic team member about the next step?",
+    label: "Are you ready to speak with a KhairoDietClinic team member about the next step?",
     type: "select",
     options: [
       { value: "yes", label: "Yes" },

@@ -94,15 +94,15 @@ async function createProblemFollowUp(payment, status, { emailEnabled = true } = 
 
         await sendEmail({
           to: contact.email,
-          subject: `Your Khairo Diet Clinic payment needs attention`,
+          subject: `Your KhairoDietClinic payment needs attention`,
           text: `Hi ${contact.fullName},
 
 ${heading}. ${nextStep}
 
 We're here if you have any questions.
 
-- Khairo Diet Clinic`,
-          html: `<p>Hi ${contact.fullName},</p><p><strong>${heading}.</strong> ${nextStep}</p><p>We're here if you have any questions.</p><p>- Khairo Diet Clinic</p>`,
+- KhairoDietClinic`,
+          html: `<p>Hi ${contact.fullName},</p><p><strong>${heading}.</strong> ${nextStep}</p><p>We're here if you have any questions.</p><p>- KhairoDietClinic</p>`,
         });
 
         await addCrmActivity({

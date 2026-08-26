@@ -103,7 +103,7 @@ async function accountWithToken() {
 
   if (connected) return connected;
 
-  // Compatibility for the existing Khairo Diet Clinic connection during migration.
+  // Compatibility for the existing KhairoDietClinic connection during migration.
   return SocialAccount.findOne({
     provider: "instagram",
     isArchived: false,
