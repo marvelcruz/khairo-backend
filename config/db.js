@@ -27,8 +27,8 @@ export const connectDB = async () => {
     const conn = await mongoose.connect(
       process.env.MONGO_URI,
       {
-        ...(process.env.FITLUNGE_CRM_QA_DB
-          ? { dbName: process.env.FITLUNGE_CRM_QA_DB }
+        ...(process.env.KHAIRO_CRM_QA_DB
+          ? { dbName: process.env.KHAIRO_CRM_QA_DB }
           : {}),
         serverSelectionTimeoutMS: SERVER_SELECTION_TIMEOUT_MS,
       }

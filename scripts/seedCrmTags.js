@@ -40,7 +40,7 @@ const TAGS = [
 
 const requestedDb =
   String(
-    process.env.FITLUNGE_CRM_QA_DB || ""
+    process.env.KHAIRO_CRM_QA_DB || ""
   ).trim();
 
 try {

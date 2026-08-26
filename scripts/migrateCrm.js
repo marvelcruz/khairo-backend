@@ -28,7 +28,7 @@ async function main() {
     return !permissions.includes("view_crm") || !permissions.includes("view_contact_info");
   });
 
-  console.log("FITLUNGE CRM MIGRATION");
+  console.log("KHAIRO CRM MIGRATION");
   console.log(apply ? "MODE: APPLY" : "MODE: DRY RUN");
   console.log("");
   console.log("Applications:", applications.length);

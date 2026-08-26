@@ -121,7 +121,7 @@ function alertEmailHtml(alert, urgent = false) {
           font-weight:700;
           margin-bottom:8px;
         ">
-          FITLUNGE
+          KHAIRO
         </div>
 
         <p style="

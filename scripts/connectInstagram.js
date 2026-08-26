@@ -135,7 +135,7 @@ const run = async () => {
     "=========================================="
   );
   console.log(
-    "FITLUNGE INSTAGRAM CONNECTION PASSED"
+    "KHAIRO INSTAGRAM CONNECTION PASSED"
   );
   console.log(
     "=========================================="
@@ -187,7 +187,7 @@ try {
 } catch (error) {
   console.error("");
   console.error(
-    "FITLUNGE INSTAGRAM CONNECTION FAILED"
+    "KHAIRO INSTAGRAM CONNECTION FAILED"
   );
   console.error(
     error.message

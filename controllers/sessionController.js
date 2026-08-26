@@ -336,7 +336,7 @@ export const setSessionStatus = async (req, res, next) => {
             <div style="max-width:520px;margin:0 auto;background:#171717;border:1px solid #262626;border-radius:8px;padding:32px;">
               <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;">
                 <div style="width:36px;height:36px;background:#0d9488;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;">F</div>
-                <span style="font-weight:600;letter-spacing:-0.02em;">FITLUNGE</span>
+                <span style="font-weight:600;letter-spacing:-0.02em;">KHAIRO</span>
               </div>
               <p style="margin:0 0 16px;font-size:15px;">Hi ${client.fullName},</p>
               <p style="margin:0 0 24px;font-size:15px;line-height:1.5;color:#d4d4d4;">Your <strong style="color:white;">${session.sessionType}</strong> session is confirmed:</p>
