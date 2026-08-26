@@ -175,6 +175,15 @@ const clientSchema = new mongoose.Schema({
     bookedCall: { type: Boolean, default: false },
     joinedGroup: { type: Boolean, default: false }
   },
+  calorieCalculation: {
+    gender: { type: String, enum: ["male", "female"] },
+    age: Number,
+    heightCm: Number,
+    weightKg: Number,
+    activityLevel: String,
+    tdeeKcal: Number,
+    updatedAt: Date,
+  },
     portalLastLogin: { type: Date },
 
     isArchived: { type: Boolean, default: false },
