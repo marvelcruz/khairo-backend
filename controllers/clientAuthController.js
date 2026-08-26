@@ -713,3 +713,30 @@ export const forgotPassword =
       next(error);
     }
   };
+
+export const updateCalorieCalculator = async (req, res) => {
+  try {
+    const client = req.client;
+    const { gender, age, heightCm, weightKg, activityLevel, tdeeKcal } = req.body;
+
+    if (!gender || !age || !heightCm || !weightKg || !activityLevel || !tdeeKcal) {
+      return res.status(400).json({ success: false, message: "Missing required fields." });
+    }
+
+    client.calorieCalculation = {
+      gender,
+      age: Number(age),
+      heightCm: Number(heightCm),
+      weightKg: Number(weightKg),
+      activityLevel,
+      tdeeKcal: Number(tdeeKcal),
+      updatedAt: new Date(),
+    };
+
+    await client.save();
+    return res.json({ success: true, calorieCalculation: client.calorieCalculation });
+  } catch (err) {
+    console.error("Calorie calculation update failed:", err);
+    return res.status(500).json({ success: false, message: "Could not save calculation." });
+  }
+};

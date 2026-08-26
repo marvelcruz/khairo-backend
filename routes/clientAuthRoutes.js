@@ -19,6 +19,7 @@ import {
   completeClientActivation,
 } from "../controllers/clientAuthRecoveryController.js";
 import { protectClient } from "../middleware/clientAuth.js";
+import { updateCalorieCalculator } from "../controllers/clientAuthController.js";
 import { loginLimiter } from "../middleware/rateLimiters.js";
 
 const router = express.Router();
@@ -74,6 +75,13 @@ router.get(
   "/me",
   protectClient,
   getClientMe
+);
+
+
+router.post(
+  "/calorie-calculator",
+  protectClient,
+  updateCalorieCalculator
 );
 
 export default router;
