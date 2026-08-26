@@ -1,0 +1,18 @@
+import express from "express";
+import { getSupplements, createSupplement, updateSupplement, deleteSupplement, adjustStock, getAdjustments, stocktake, getStocktakes, assignToClient, getClientSupplements, removeClientSupplement } from "../controllers/supplementController.js";
+import { protect, authorize, requirePermission } from "../middleware/auth.js";
+const router = express.Router();
+router.use(protect);
+router.use(requirePermission("view_supplements"));
+router.use(authorize("admin", "staff"));
+router.route("/").get(getSupplements).post(createSupplement);
+router.post("/stocktake", stocktake);
+router.get("/stocktakes", getStocktakes);
+router.get("/client/:clientId", getClientSupplements);
+router.post("/client/:clientId", assignToClient);
+router.delete("/client/:clientId/:itemId", removeClientSupplement);
+router.patch("/:id", updateSupplement);
+router.delete("/:id", authorize("admin"), deleteSupplement);
+router.post("/:id/adjust", adjustStock);
+router.get("/:id/adjustments", getAdjustments);
+export default router;
