@@ -1,0 +1,49 @@
+name: Prepare same-site session cookies
+
+on:
+  push:
+    paths:
+      - '.github/workflows/prepare-same-site-cookie.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Make client cookie policy configurable
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          client = Path('controllers/clientAuthController.js')
+          text = client.read_text()
+          old = '''      sameSite:\n        process.env.NODE_ENV ===\n        "production"\n          ? "none"\n          : "lax",'''
+          new = '''      sameSite:\n        String(process.env.COOKIE_SAME_SITE || "").trim().toLowerCase() ||\n        (process.env.NODE_ENV === "production" ? "none" : "lax"),'''
+          if old not in text:
+              raise SystemExit('clientAuthController cookie block not found')
+          client.write_text(text.replace(old, new, 1))
+
+          social = Path('controllers/socialAuthController.js')
+          text = social.read_text()
+          old = '    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",'
+          new = '    sameSite: String(process.env.COOKIE_SAME_SITE || "").trim().toLowerCase() || (process.env.NODE_ENV === "production" ? "none" : "lax"),'
+          if old not in text:
+              raise SystemExit('socialAuthController cookie block not found')
+          social.write_text(text.replace(old, new, 1))
+          PY
+
+      - name: Commit patch and remove temporary workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/prepare-same-site-cookie.yml
+          git add controllers/clientAuthController.js controllers/socialAuthController.js
+          git commit -m "security: prepare all session cookies for SameSite strict"
+          git push origin main
