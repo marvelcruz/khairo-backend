@@ -24,7 +24,11 @@ import {
   completeStaffPasswordReset,
 } from "../controllers/authRecoveryController.js";
 import { protect, authorize, requireAnyPermission } from "../middleware/auth.js";
-import { loginLimiter } from "../middleware/rateLimiters.js";
+import {
+  authFlowLimiter,
+  loginLimiter,
+  validateLoginRequest,
+} from "../middleware/rateLimiters.js";
 
 const router = express.Router();
 
@@ -33,10 +37,10 @@ router.get("/google/callback", staffGoogleCallback);
 router.get("/apple", staffAppleAuth);
 router.post("/apple/callback", staffAppleCallback);
 
-router.post("/login", loginLimiter, login);
+router.post("/login", loginLimiter, validateLoginRequest, login);
 router.post("/logout", logout);
-router.post("/forgot-password", loginLimiter, requestStaffPasswordReset);
-router.post("/reset-password", loginLimiter, completeStaffPasswordReset);
+router.post("/forgot-password", authFlowLimiter, requestStaffPasswordReset);
+router.post("/reset-password", authFlowLimiter, completeStaffPasswordReset);
 router.get("/me", protect, getMe);
 router.patch("/change-password", protect, changePassword);
 
