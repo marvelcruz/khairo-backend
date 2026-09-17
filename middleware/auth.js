@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import { isTrustedAuthenticatedOrigin } from "./trustedOrigin.js";
 import {
   allowedProfilesFromRouteRoles,
   hasStaffAccess,
@@ -14,6 +15,13 @@ export const protect = async (req, res, next) => {
       return res.status(401).json({
         success: false,
         message: "Not authenticated. Please log in.",
+      });
+    }
+
+    if (!isTrustedAuthenticatedOrigin(req)) {
+      return res.status(403).json({
+        success: false,
+        message: "Request origin is not allowed.",
       });
     }
 
