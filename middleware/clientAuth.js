@@ -3,13 +3,7 @@ import Client from "../models/Client.js";
 
 export const protectClient = async (req, res, next) => {
   try {
-    let token;
-
-    if (req.cookies?.clientToken) {
-      token = req.cookies.clientToken;
-    } else if (req.headers.authorization?.startsWith("Bearer ")) {
-      token = req.headers.authorization.split(" ")[1];
-    }
+    const token = req.cookies?.clientToken;
 
     if (!token) {
       return res.status(401).json({ success: false, message: "Not authenticated. Please log in." });
