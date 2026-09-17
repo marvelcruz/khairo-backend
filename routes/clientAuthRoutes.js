@@ -20,26 +20,30 @@ import {
 } from "../controllers/clientAuthRecoveryController.js";
 import { protectClient } from "../middleware/clientAuth.js";
 import { updateCalorieCalculator } from "../controllers/clientAuthController.js";
-import { loginLimiter } from "../middleware/rateLimiters.js";
+import {
+  authFlowLimiter,
+  loginLimiter,
+  validateLoginRequest,
+} from "../middleware/rateLimiters.js";
 
 const router = express.Router();
 
 router.post(
   "/register",
-  loginLimiter,
+  authFlowLimiter,
   preventExistingClientPortalRegistration,
   registerPreviewAccount
 );
 
 router.post(
   "/request-activation",
-  loginLimiter,
+  authFlowLimiter,
   requestClientActivation
 );
 
 router.post(
   "/activate",
-  loginLimiter,
+  authFlowLimiter,
   completeClientActivation
 );
 
@@ -51,18 +55,19 @@ router.post("/apple/callback", clientAppleCallback);
 router.post(
   "/login",
   loginLimiter,
+  validateLoginRequest,
   clientLogin
 );
 
 router.post(
   "/forgot-password",
-  loginLimiter,
+  authFlowLimiter,
   requestClientPasswordReset
 );
 
 router.post(
   "/reset-password",
-  loginLimiter,
+  authFlowLimiter,
   completeClientPasswordReset
 );
 
@@ -76,7 +81,6 @@ router.get(
   protectClient,
   getClientMe
 );
-
 
 router.post(
   "/calorie-calculator",
