@@ -30,6 +30,7 @@ import {
   sanitizeAuthInput,
   validateLoginRequest,
 } from "../middleware/rateLimiters.js";
+import { requireTrustedAuthenticatedOrigin } from "../middleware/trustedOrigin.js";
 
 const router = express.Router();
 
@@ -39,7 +40,7 @@ router.get("/apple", staffAppleAuth);
 router.post("/apple/callback", staffAppleCallback);
 
 router.post("/login", sanitizeAuthInput, loginLimiter, validateLoginRequest, login);
-router.post("/logout", logout);
+router.post("/logout", requireTrustedAuthenticatedOrigin, logout);
 router.post("/forgot-password", sanitizeAuthInput, authFlowLimiter, requestStaffPasswordReset);
 router.post("/reset-password", sanitizeAuthInput, authFlowLimiter, completeStaffPasswordReset);
 router.get("/me", protect, getMe);
