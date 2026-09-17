@@ -1,0 +1,116 @@
+name: Configure Khairo custom domains
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/configure-khairo-custom-domains.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  configure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      VERCEL_TEAM_ID: team_LjmLjca4qFVo4eWQ8zvW9j5F
+      VERCEL_PROJECT: khairo-frontend
+      RENDER_SERVICE_ID: srv-da7b9se7bikc73a58of0
+      ZONE_NAME: khairodiet.com
+      APP_DOMAIN: app.khairodiet.com
+      API_DOMAIN: api.khairodiet.com
+    steps:
+      - name: Check available deployment credentials
+        id: creds
+        shell: bash
+        run: |
+          set -euo pipefail
+          [ -n "${VERCEL_TOKEN:-}" ] && echo 'vercel=true' >> "$GITHUB_OUTPUT" || echo 'vercel=false' >> "$GITHUB_OUTPUT"
+          [ -n "${RENDER_API_KEY:-}" ] && echo 'render=true' >> "$GITHUB_OUTPUT" || echo 'render=false' >> "$GITHUB_OUTPUT"
+          [ -n "${CLOUDFLARE_API_TOKEN:-}" ] && echo 'cloudflare=true' >> "$GITHUB_OUTPUT" || echo 'cloudflare=false' >> "$GITHUB_OUTPUT"
+          echo "Vercel credential present: $([ -n "${VERCEL_TOKEN:-}" ] && echo yes || echo no)"
+          echo "Render credential present: $([ -n "${RENDER_API_KEY:-}" ] && echo yes || echo no)"
+          echo "Cloudflare credential present: $([ -n "${CLOUDFLARE_API_TOKEN:-}" ] && echo yes || echo no)"
+
+      - name: Attach app domain to Vercel project
+        if: steps.creds.outputs.vercel == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          response=$(mktemp)
+          code=$(curl -sS -o "$response" -w '%{http_code}' \
+            -X POST "https://api.vercel.com/v10/projects/${VERCEL_PROJECT}/domains?teamId=${VERCEL_TEAM_ID}" \
+            -H "Authorization: Bearer ${VERCEL_TOKEN}" \
+            -H 'Content-Type: application/json' \
+            --data "{\"name\":\"${APP_DOMAIN}\"}")
+          echo "Vercel add-domain HTTP ${code}"
+          cat "$response" | jq '{name, verified, verification, error}' || true
+          case "$code" in 200|201|409) ;; *) exit 1 ;; esac
+
+      - name: Attach API domain to Render service
+        if: steps.creds.outputs.render == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          response=$(mktemp)
+          code=$(curl -sS -o "$response" -w '%{http_code}' \
+            -X POST "https://api.render.com/v1/services/${RENDER_SERVICE_ID}/custom-domains" \
+            -H "Authorization: Bearer ${RENDER_API_KEY}" \
+            -H 'Content-Type: application/json' \
+            --data "{\"name\":\"${API_DOMAIN}\"}")
+          echo "Render add-domain HTTP ${code}"
+          cat "$response" | jq '{id, name, verificationStatus, error}' || true
+          case "$code" in 200|201|409) ;; *) exit 1 ;; esac
+
+      - name: Configure Cloudflare DNS records
+        if: steps.creds.outputs.cloudflare == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          auth=(-H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" -H 'Content-Type: application/json')
+          zone_json=$(curl -fsS "https://api.cloudflare.com/client/v4/zones?name=${ZONE_NAME}&status=active" "${auth[@]}")
+          zone_id=$(echo "$zone_json" | jq -r '.result[0].id // empty')
+          if [ -z "$zone_id" ]; then
+            echo "No active Cloudflare zone found for ${ZONE_NAME}."
+            exit 1
+          fi
+
+          upsert_cname() {
+            local fqdn="$1"
+            local target="$2"
+            local existing id payload
+            existing=$(curl -fsS "https://api.cloudflare.com/client/v4/zones/${zone_id}/dns_records?type=CNAME&name=${fqdn}" "${auth[@]}")
+            id=$(echo "$existing" | jq -r '.result[0].id // empty')
+            payload=$(jq -nc --arg name "$fqdn" --arg content "$target" '{type:"CNAME",name:$name,content:$content,ttl:1,proxied:false}')
+            if [ -n "$id" ]; then
+              curl -fsS -X PUT "https://api.cloudflare.com/client/v4/zones/${zone_id}/dns_records/${id}" "${auth[@]}" --data "$payload" >/dev/null
+              echo "Updated ${fqdn} -> ${target}"
+            else
+              curl -fsS -X POST "https://api.cloudflare.com/client/v4/zones/${zone_id}/dns_records" "${auth[@]}" --data "$payload" >/dev/null
+              echo "Created ${fqdn} -> ${target}"
+            fi
+          }
+
+          upsert_cname "$APP_DOMAIN" 'cname.vercel-dns-0.com'
+          upsert_cname "$API_DOMAIN" 'khairo-backend.onrender.com'
+
+      - name: Trigger provider verification
+        if: steps.creds.outputs.render == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -sS -o /tmp/render-verify.json -w 'Render verify HTTP %{http_code}\n' \
+            -X POST "https://api.render.com/v1/services/${RENDER_SERVICE_ID}/custom-domains/${API_DOMAIN}/verify" \
+            -H "Authorization: Bearer ${RENDER_API_KEY}" \
+            -H 'Content-Type: application/json' || true
+          cat /tmp/render-verify.json | jq '{id, name, verificationStatus, error}' || true
+
+      - name: Summary
+        shell: bash
+        run: |
+          echo 'Custom-domain wiring attempt finished.'
+          echo 'No production cookie/env switch was made by this workflow.'
