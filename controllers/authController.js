@@ -53,7 +53,7 @@ export const login = async (req, res, next) => {
     sendTokenCookie(res, token);
 
     if (user) await logAudit({ user }, "Logged into dashboard", "Auth", "", "");
-    res.status(200).json({ success: true, token, user: user.toSafeObject() });
+    res.status(200).json({ success: true, user: user.toSafeObject() });
   } catch (err) {
     next(err);
   }
