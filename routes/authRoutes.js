@@ -27,6 +27,7 @@ import { protect, authorize, requireAnyPermission } from "../middleware/auth.js"
 import {
   authFlowLimiter,
   loginLimiter,
+  sanitizeAuthInput,
   validateLoginRequest,
 } from "../middleware/rateLimiters.js";
 
@@ -37,10 +38,10 @@ router.get("/google/callback", staffGoogleCallback);
 router.get("/apple", staffAppleAuth);
 router.post("/apple/callback", staffAppleCallback);
 
-router.post("/login", loginLimiter, validateLoginRequest, login);
+router.post("/login", sanitizeAuthInput, loginLimiter, validateLoginRequest, login);
 router.post("/logout", logout);
-router.post("/forgot-password", authFlowLimiter, requestStaffPasswordReset);
-router.post("/reset-password", authFlowLimiter, completeStaffPasswordReset);
+router.post("/forgot-password", sanitizeAuthInput, authFlowLimiter, requestStaffPasswordReset);
+router.post("/reset-password", sanitizeAuthInput, authFlowLimiter, completeStaffPasswordReset);
 router.get("/me", protect, getMe);
 router.patch("/change-password", protect, changePassword);
 
