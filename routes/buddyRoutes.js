@@ -12,10 +12,10 @@ import { filterByPermissions } from "../controllers/clientController.js";
 
 const router = express.Router();
 
-router.get("/buddy/my-buddy", protectClient, getMyBuddy);
+router.get("/my-buddy", protectClient, getMyBuddy);
 
 router.get(
-  "/buddy/all",
+  "/all",
   protect,
   filterByPermissions,
   requirePermission("view_buddies"),
@@ -24,7 +24,7 @@ router.get(
 );
 
 router.get(
-  "/buddy/unpaired",
+  "/unpaired",
   protect,
   filterByPermissions,
   requirePermission("view_buddies"),
@@ -33,7 +33,7 @@ router.get(
 );
 
 router.post(
-  "/buddy/pair",
+  "/pair",
   protect,
   requirePermission("view_buddies"),
   authorize("admin", "coach"),
@@ -41,7 +41,7 @@ router.post(
 );
 
 router.put(
-  "/buddy/pair/:pairId",
+  "/pair/:pairId",
   protect,
   requirePermission("view_buddies"),
   authorize("admin", "coach"),
