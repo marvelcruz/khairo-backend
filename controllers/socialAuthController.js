@@ -164,13 +164,7 @@ export const staffGoogleCallback = async (req, res) => {
     const token = generateToken(user._id);
     sendTokenCookie(res, token);
 
-    const staffGoogleRedirect = new URLSearchParams({
-      token,
-      storage: "khairo_staff_token",
-      target: "/dashboard",
-    });
-
-    return res.redirect(`${CLIENT_URL}/social-auth/callback?${staffGoogleRedirect.toString()}`);
+    return res.redirect(`${CLIENT_URL}/dashboard`);
   } catch (error) {
     console.error("Staff Google callback error:", error.message);
     return redirectWithError(res, error.message);
@@ -210,13 +204,7 @@ export const staffAppleCallback = async (req, res) => {
     const token = generateToken(user._id);
     sendTokenCookie(res, token);
 
-    const staffGoogleRedirect = new URLSearchParams({
-      token,
-      storage: "khairo_staff_token",
-      target: "/dashboard",
-    });
-
-    return res.redirect(`${CLIENT_URL}/social-auth/callback?${staffGoogleRedirect.toString()}`);
+    return res.redirect(`${CLIENT_URL}/dashboard`);
   } catch (error) {
     console.error("Staff Apple callback error:", error.message);
     return redirectWithError(res, error.message);
@@ -282,13 +270,11 @@ export const clientGoogleCallback = async (req, res) => {
     const token = generateClientToken(client._id);
     sendClientTokenCookie(res, token);
 
-    const clientGoogleRedirect = new URLSearchParams({
-      token,
-      storage: "khairo_client_token",
-      target: needsProfilePhone(client) ? "/portal/complete-profile" : "/portal",
-    });
+    const target = needsProfilePhone(client)
+      ? "/portal/complete-profile"
+      : "/portal";
 
-    return res.redirect(`${CLIENT_URL}/social-auth/callback?${clientGoogleRedirect.toString()}`);
+    return res.redirect(`${CLIENT_URL}${target}`);
   } catch (error) {
     console.error("Client Google callback error:", error.message);
     return redirectClientWithError(res, error.message);
@@ -353,13 +339,7 @@ export const clientAppleCallback = async (req, res) => {
     const token = generateClientToken(client._id);
     sendClientTokenCookie(res, token);
 
-    const clientGoogleRedirect = new URLSearchParams({
-      token,
-      storage: "khairo_client_token",
-      target: "/portal",
-    });
-
-    return res.redirect(`${CLIENT_URL}/social-auth/callback?${clientGoogleRedirect.toString()}`);
+    return res.redirect(`${CLIENT_URL}/portal`);
   } catch (error) {
     console.error("Client Apple callback error:", error.message);
     return redirectClientWithError(res, error.message);
