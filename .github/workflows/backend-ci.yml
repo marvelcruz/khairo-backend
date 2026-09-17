@@ -32,6 +32,14 @@ jobs:
             -type f -name '*.js' -print0 \
             | xargs -0 -n1 node --check
 
+      - name: Reject bare API route mounts
+        shell: bash
+        run: |
+          if grep -En 'app\.use\("/api",[[:space:]]*[A-Za-z0-9_]+Routes\)' server.js; then
+            echo 'Route modules must be mounted under an explicit feature prefix, not bare /api.'
+            exit 1
+          fi
+
       - name: Verify critical module imports
         run: |
           node --input-type=module <<'NODE'
@@ -39,6 +47,15 @@ jobs:
             import('./controllers/qualificationController.js'),
             import('./services/qualificationCommunicationService.js'),
             import('./jobs/scheduler.js'),
+            import('./routes/pricingRoutes.js'),
+            import('./routes/publicPricingRoutes.js'),
+            import('./routes/followUpRoutes.js'),
+            import('./routes/templateRoutes.js'),
+            import('./routes/onboardingRoutes.js'),
+            import('./routes/staffOnboardingRoutes.js'),
+            import('./routes/broadcastRoutes.js'),
+            import('./routes/trialRoutes.js'),
+            import('./routes/buddyRoutes.js'),
           ]);
           console.log('Critical backend imports resolved.');
           NODE
