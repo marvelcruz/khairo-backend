@@ -40,6 +40,37 @@ jobs:
             exit 1
           fi
 
+      - name: Verify centralized validation
+        run: |
+          node --input-type=module <<'NODE'
+          const { loginSchema, clientRegistrationSchema } = await import('./validation/authSchemas.js');
+          await import('./middleware/validate.js');
+
+          const login = loginSchema.safeParse({
+            email: '  TEST@EXAMPLE.COM ',
+            password: 'password123',
+          });
+          if (!login.success || login.data.email !== 'test@example.com') {
+            throw new Error('Login validation or normalization failed.');
+          }
+
+          if (loginSchema.safeParse({ email: 'bad', password: 'password123' }).success) {
+            throw new Error('Invalid login email was accepted.');
+          }
+
+          if (clientRegistrationSchema.safeParse({
+            fullName: 'Test Client',
+            email: 'test@example.com',
+            phone: '08000000000',
+            password: 'password123',
+            unexpected: true,
+          }).success) {
+            throw new Error('Strict request schema accepted an unknown field.');
+          }
+
+          console.log('Centralized validation checks passed.');
+          NODE
+
       - name: Verify critical module imports
         run: |
           node --input-type=module <<'NODE'
@@ -47,6 +78,10 @@ jobs:
             import('./controllers/qualificationController.js'),
             import('./services/qualificationCommunicationService.js'),
             import('./jobs/scheduler.js'),
+            import('./middleware/validate.js'),
+            import('./validation/authSchemas.js'),
+            import('./routes/authRoutes.js'),
+            import('./routes/clientAuthRoutes.js'),
             import('./routes/pricingRoutes.js'),
             import('./routes/publicPricingRoutes.js'),
             import('./routes/followUpRoutes.js'),
