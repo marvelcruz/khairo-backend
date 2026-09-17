@@ -51,8 +51,6 @@ const consumeLoginBucket = async ({ key, limit }) => {
     };
   }
 
-  // Once a completed window is no longer locked, start the next attempt window
-  // from zero. The delete + atomic increment also keeps stale records bounded.
   await LoginAttempt.deleteOne({
     _id: key,
     windowStartedAt: { $lte: staleBefore },
@@ -111,49 +109,11 @@ const consumeLoginBucket = async ({ key, limit }) => {
   };
 };
 
-// This route-level sanitizer runs after Express has parsed req.body. The app's
-// global sanitizer is registered before express.json(), so auth routes should
-// not rely on that ordering for credential payloads.
+// Route-level auth sanitation runs after Express has parsed req.body.
 export const sanitizeAuthInput = mongoSanitize();
 
-export const validateLoginRequest = (req, res, next) => {
-  const email = normalizeEmail(req.body?.email);
-  const password = req.body?.password;
-
-  if (!email || typeof password !== "string" || !password) {
-    return res.status(400).json({
-      success: false,
-      message: "Email and password are required.",
-    });
-  }
-
-  if (
-    email.length > 254 ||
-    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-  ) {
-    return res.status(400).json({
-      success: false,
-      message: "Enter a valid email address.",
-    });
-  }
-
-  // Do not trim or otherwise transform passwords. Only bound their size so an
-  // unauthenticated request cannot force excessive hashing work or memory use.
-  if (password.length > 256) {
-    return res.status(400).json({
-      success: false,
-      message: "Invalid login credentials.",
-    });
-  }
-
-  req.body.email = email;
-  next();
-};
-
-// Persistent brute-force protection. The primary bucket is IP + normalized
-// email (8 attempts), while the secondary IP-only bucket catches email spraying
-// without locking unrelated users after a small number of mistakes. Bucket
-// identifiers are SHA-256 hashes, so raw IP addresses and emails are not stored.
+// Persistent brute-force protection. Request-shape validation is intentionally
+// handled by the centralized Zod validation layer before this limiter runs.
 export const loginLimiter = async (req, res, next) => {
   try {
     const ip = requestIp(req);
@@ -187,10 +147,6 @@ export const loginLimiter = async (req, res, next) => {
       String(Math.max(0, LOGIN_PAIR_LIMIT - pairBucket.attempts))
     );
 
-    // The buckets are consumed before password verification so parallel brute
-    // force requests cannot all slip through. On a successful login, clear the
-    // account-specific failures and remove only this successful hit from the
-    // wider IP bucket, preserving failures against other email addresses.
     res.once("finish", () => {
       if (res.statusCode >= 200 && res.statusCode < 400) {
         Promise.all([
@@ -210,14 +166,10 @@ export const loginLimiter = async (req, res, next) => {
 
     next();
   } catch (error) {
-    // Fail closed: if the persistent limiter cannot be checked, do not silently
-    // bypass brute-force protection on an authentication endpoint.
     next(error);
   }
 };
 
-// Registration, activation and password recovery are deliberately isolated
-// from the login bucket so those actions cannot lock a user out of sign-in.
 export const authFlowLimiter = rateLimit({
   windowMs: FIFTEEN_MINUTES_MS,
   max: 20,
@@ -238,7 +190,6 @@ export const apiLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-// Public application form - no login wall, so it needs its own strict limit to prevent spam.
 export const applicationLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   max: 1000,
