@@ -345,7 +345,6 @@ export const registerPreviewAccount =
 
       res.status(201).json({
         success: true,
-        token,
         client:
           toSafeClient(
             client,
@@ -469,7 +468,6 @@ export const activatePortal =
 
       res.status(201).json({
         success: true,
-        token,
         client:
           toSafeClient(
             client,
@@ -581,7 +579,6 @@ export const clientLogin =
 
       res.status(200).json({
         success: true,
-        token,
         client:
           toSafeClient(
             client,
