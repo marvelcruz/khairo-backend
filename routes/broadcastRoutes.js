@@ -22,56 +22,20 @@ const canBroadcast = [
   authorize("admin", "sales", "coach"),
 ];
 
+router.get("/segments", ...canBroadcast, getSegments);
+router.get("/preview", ...canBroadcast, previewSegment);
+router.get("/templates", ...canBroadcast, getTemplates);
+router.post("/templates", ...canBroadcast, createTemplate);
 router.get(
-  "/broadcast/segments",
-  ...canBroadcast,
-  getSegments
-);
-
-router.get(
-  "/broadcast/preview",
-  ...canBroadcast,
-  previewSegment
-);
-
-router.get(
-  "/broadcast/templates",
-  ...canBroadcast,
-  getTemplates
-);
-
-router.post(
-  "/broadcast/templates",
-  ...canBroadcast,
-  createTemplate
-);
-
-router.get(
-  "/broadcast/whatsapp-templates",
+  "/whatsapp-templates",
   ...canBroadcast,
   getApprovedWhatsAppTemplates
 );
-
-router.get(
-  "/broadcast/history",
-  ...canBroadcast,
-  getBroadcastHistory
-);
-
+router.get("/history", ...canBroadcast, getBroadcastHistory);
+router.post("/log", ...canBroadcast, logBroadcast);
+router.post("/send-wa", ...canBroadcast, sendViaWhatsAppApi);
 router.post(
-  "/broadcast/log",
-  ...canBroadcast,
-  logBroadcast
-);
-
-router.post(
-  "/broadcast/send-wa",
-  ...canBroadcast,
-  sendViaWhatsAppApi
-);
-
-router.post(
-  "/broadcast/send-wa-template",
+  "/send-wa-template",
   ...canBroadcast,
   sendApprovedWhatsAppTemplate
 );
