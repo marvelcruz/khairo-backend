@@ -35,10 +35,8 @@ const sendClientTokenCookie = (
         process.env.NODE_ENV ===
         "production",
       sameSite:
-        process.env.NODE_ENV ===
-        "production"
-          ? "none"
-          : "lax",
+        String(process.env.COOKIE_SAME_SITE || "").trim().toLowerCase() ||
+        (process.env.NODE_ENV === "production" ? "none" : "lax"),
       maxAge:
         expiresDays *
         24 *

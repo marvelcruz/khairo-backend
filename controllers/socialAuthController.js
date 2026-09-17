@@ -55,7 +55,7 @@ function sendClientTokenCookie(res, token) {
   res.cookie("clientToken", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    sameSite: String(process.env.COOKIE_SAME_SITE || "").trim().toLowerCase() || (process.env.NODE_ENV === "production" ? "none" : "lax"),
     maxAge: expiresDays * 24 * 60 * 60 * 1000,
   });
 }
