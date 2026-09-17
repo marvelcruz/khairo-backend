@@ -38,6 +38,7 @@ jobs:
           await Promise.all([
             import('./controllers/qualificationController.js'),
             import('./services/qualificationCommunicationService.js'),
+            import('./jobs/scheduler.js'),
           ]);
           console.log('Critical backend imports resolved.');
           NODE

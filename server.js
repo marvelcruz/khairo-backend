@@ -10,6 +10,8 @@ import mongoose from "mongoose";
 import { connectDB } from "./config/db.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 import { apiLimiter } from "./middleware/rateLimiters.js";
+import { globalAuditTracker } from "./middleware/auditMiddleware.js";
+import { registerScheduledJobs } from "./jobs/scheduler.js";
 
 import authRoutes from "./routes/authRoutes.js";
 import settingsRoutes from "./routes/settingsRoutes.js";
@@ -27,27 +29,6 @@ import onboardingRoutes from "./routes/onboardingRoutes.js";
 import broadcastRoutes from "./routes/broadcastRoutes.js";
 import trialRoutes from "./routes/trialRoutes.js";
 import buddyRoutes from "./routes/buddyRoutes.js";
-import cron from "node-cron";
-import { scanApplicationAlerts } from "./services/actionCentreService.js";
-import { scanOperationalAlerts } from "./services/actionCentreOperationalService.js";
-import { backfillQualifiedLeadMilestones } from "./services/crmMilestoneBackfillService.js";
-import { pauseLegacyMedicalReviewTaskWorkflow } from "./services/medicalReviewService.js";
-import { runDailyEngagementReview } from "./services/clientEngagementService.js";
-import { backfillClientBehaviorMilestones } from "./services/clientBehaviorMilestoneService.js";
-import { refreshClientRetentionRiskTags } from "./services/clientRetentionRiskService.js";
-import { runConsultationReminderScan } from "./services/consultationReminderService.js";
-import { reconcileStalePayments } from "./services/paymentReconciliationService.js";
-import { ensureWeek3ReviewTasks } from "./services/week3ReviewService.js";
-import { resumeWaitingWorkflowRuns } from "./services/workflowService.js";
-import { runSubscriptionRenewalReminders } from "./services/subscriptionRenewalService.js";
-import { runSubscriptionLifecycle } from "./services/subscriptionLifecycleService.js";
-import { ensureLegacyCataloguePrograms } from "./services/cataloguePricingService.js";
-import { runWinBackOffers } from "./services/winBackService.js";
-import { runOperationalAutomations } from "./services/operationalAutomationService.js";
-import { runActionCentreSla } from "./services/actionCentreSlaService.js";
-import Client from "./models/Client.js";
-import { generateClientReview } from "./controllers/reviewController.js";
-import { globalAuditTracker } from "./middleware/auditMiddleware.js";
 import clientAuthRoutes from "./routes/clientAuthRoutes.js";
 import clientPortalRoutes from "./routes/clientPortalRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
@@ -79,6 +60,12 @@ import newsletterRoutes from "./routes/newsletterRoutes.js";
 import promoCodeRoutes from "./routes/promoCodeRoutes.js";
 import giftCardRoutes from "./routes/giftCardRoutes.js";
 
+import { backfillQualifiedLeadMilestones } from "./services/crmMilestoneBackfillService.js";
+import { pauseLegacyMedicalReviewTaskWorkflow } from "./services/medicalReviewService.js";
+import { backfillClientBehaviorMilestones } from "./services/clientBehaviorMilestoneService.js";
+import { refreshClientRetentionRiskTags } from "./services/clientRetentionRiskService.js";
+import { ensureLegacyCataloguePrograms } from "./services/cataloguePricingService.js";
+
 dotenv.config();
 
 const healthStatus = () => {
@@ -105,7 +92,6 @@ const runStartupMaintenance = async () => {
     console.error("Catalogue program seeding failed:", error?.message || error);
   }
 
-
   try {
     const qualifiedMilestoneBackfill = await backfillQualifiedLeadMilestones();
     if (qualifiedMilestoneBackfill.changed) {
@@ -125,7 +111,7 @@ const runStartupMaintenance = async () => {
     }
   } catch (error) {
     console.error(
-      "Client behavior milestone backfill failed:",
+      "Client behavior milestone refresh failed:",
       error?.message || error
     );
   }
@@ -164,17 +150,23 @@ const runStartupMaintenance = async () => {
 
 const app = express();
 const processStartedAt = new Date();
-const releaseSha = String(
-  process.env.RENDER_GIT_COMMIT ||
-    process.env.GIT_COMMIT ||
-    ""
-).trim().slice(0, 7) || "unknown";
+const releaseSha =
+  String(
+    process.env.RENDER_GIT_COMMIT ||
+      process.env.GIT_COMMIT ||
+      ""
+  )
+    .trim()
+    .slice(0, 7) || "unknown";
 
 app.set("trust proxy", 1);
 app.use(helmet());
 app.use(mongoSanitize());
 
-const allowedOrigins = (process.env.CLIENT_URL || "").split(",").map((o) => o.trim());
+const allowedOrigins = (process.env.CLIENT_URL || "")
+  .split(",")
+  .map((o) => o.trim());
+
 app.use(
   cors({
     origin: allowedOrigins,
@@ -182,7 +174,14 @@ app.use(
   })
 );
 
-app.use(express.json({ limit: "1mb", verify: (req, res, buf) => { req.rawBody = buf; } }));
+app.use(
+  express.json({
+    limit: "1mb",
+    verify: (req, res, buf) => {
+      req.rawBody = buf;
+    },
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
@@ -197,7 +196,10 @@ app.get("/api/health", (req, res) => {
     success: true,
     message: "KhairoDietClinic API is running.",
     release: releaseSha,
-    uptimeSeconds: Math.max(0, Math.floor((Date.now() - processStartedAt.getTime()) / 1000)),
+    uptimeSeconds: Math.max(
+      0,
+      Math.floor((Date.now() - processStartedAt.getTime()) / 1000)
+    ),
   });
 });
 
@@ -266,307 +268,12 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-// Keep both application and operational Action Centre alerts current without
-// requiring a staff member to open the Action Centre page.
-cron.schedule(
-  "15 * * * *",
-  async () => {
-    try {
-      const result = await scanApplicationAlerts({
-        sendNotifications: true,
-      });
-
-      if (
-        result.created ||
-        result.autoResolved ||
-        result.emailsSent ||
-        result.escalationsSent
-      ) {
-        console.log("Application Action Centre scan:", result);
-      }
-    } catch (error) {
-      console.error(
-        "Application Action Centre scan failed:",
-        error?.message || error
-      );
-    }
-
-    try {
-      const result = await scanOperationalAlerts();
-      if (result.created || result.updated || result.autoResolved) {
-        console.log("Operational Action Centre scan:", result);
-      }
-    } catch (error) {
-      console.error(
-        "Operational Action Centre scan failed:",
-        error?.message || error
-      );
-    }
-  },
-  { noOverlap: true }
-);
-
-// Send consultation reminders around 24 hours and 2 hours before the booking.
-cron.schedule(
-  "*/30 * * * *",
-  async () => {
-    try {
-      const result = await runConsultationReminderScan();
-      if (result.delivered || result.failed || result.skipped) {
-        console.log("Consultation reminder scan:", result);
-      }
-    } catch (error) {
-      console.error(
-        "Consultation reminder scan failed:",
-        error?.message || error
-      );
-    }
-  },
-  { noOverlap: true }
-);
-
-// Paystack does not send failure/abandon webhooks for normal card attempts,
-// so verify stale pending transactions and persist any terminal status.
-cron.schedule(
-  "*/15 * * * *",
-  async () => {
-    try {
-      const result = await reconcileStalePayments();
-      if (
-        !result.skipped &&
-        (result.success || result.failed || result.abandoned || result.errors)
-      ) {
-        console.log("Stale payment reconciliation:", result);
-      }
-    } catch (error) {
-      console.error(
-        "Stale payment reconciliation failed:",
-        error?.message || error
-      );
-    }
-  },
-  { noOverlap: true }
-);
-
-// Run configurable operational automations.
-cron.schedule(
-  "45 * * * *",
-  async () => {
-    try {
-      const result = await runOperationalAutomations();
-      if (
-        result.newSignup?.acted ||
-        result.qualification?.acted ||
-        result.monthlyReviews?.acted ||
-        result.activation?.acted
-      ) {
-        console.log("Operational automations ran:", result);
-      }
-    } catch (error) {
-      console.error("Operational automations failed:", error?.message || error);
-    }
-  },
-  { noOverlap: true }
-);
-
-// Send win-back offers to inactive/expired clients.
-cron.schedule(
-  "30 8 * * *",
-  async () => {
-    try {
-      const result = await runWinBackOffers();
-      if (result.sent || result.failed) {
-        console.log("Win-back offer scan:", result);
-      }
-    } catch (error) {
-      console.error("Win-back offer scan failed:", error?.message || error);
-    }
-  },
-  { noOverlap: true }
-);
-
-// Send renewal reminders for active subscriptions approaching their period end.
-cron.schedule(
-  "0 8 * * *",
-  async () => {
-    try {
-      const result = await runSubscriptionRenewalReminders();
-      if (result.sent || result.failed) {
-        console.log("Subscription renewal reminders:", result);
-      }
-    } catch (error) {
-      console.error(
-        "Subscription renewal reminder scan failed:",
-        error?.message || error
-      );
-    }
-  },
-  {
-    timezone: process.env.ENGAGEMENT_TIMEZONE || "Africa/Lagos",
-    noOverlap: true,
-  }
-);
-
-// Run subscription lifecycle: active -> grace -> expired, and pause clients.
-cron.schedule(
-  "15 1 * * *",
-  async () => {
-    try {
-      const result = await runSubscriptionLifecycle();
-      if (result.activeToGrace || result.graceToExpired || result.errors) {
-        console.log("Subscription lifecycle scan:", result);
-      }
-    } catch (error) {
-      console.error("Subscription lifecycle scan failed:", error?.message || error);
-    }
-  },
-  { noOverlap: true }
-);
-
-// Run operational SLA transition checks for open Action Centre alerts.
-cron.schedule(
-  "*/15 * * * *",
-  async () => {
-    try {
-      const result = await runActionCentreSla();
-      if (result.breached || result.escalated || result.managerEscalated || result.errors) {
-        console.log("Action Centre SLA scan:", result);
-      }
-    } catch (error) {
-      console.error("Action Centre SLA scan failed:", error?.message || error);
-    }
-  },
-  { noOverlap: true }
-);
-
-// Resume workflow runs whose wait/delay period has finished.
-cron.schedule(
-  "* * * * *",
-  async () => {
-    try {
-      const result = await resumeWaitingWorkflowRuns();
-      if (result.resumed || result.failed) {
-        console.log("Resumed waiting workflow runs:", result);
-      }
-    } catch (error) {
-      console.error(
-        "Resume waiting workflow runs scan failed:",
-        error?.message || error
-      );
-    }
-  },
-  { noOverlap: true }
-);
-
-// Create one staff task when an active client reaches day 21.
-cron.schedule(
-  "10 8 * * *",
-  async () => {
-    try {
-      const result = await ensureWeek3ReviewTasks();
-      if (result.created || result.missingCrm) {
-        console.log("Week 3 review task scan:", result);
-      }
-    } catch (error) {
-      console.error(
-        "Week 3 review task scan failed:",
-        error?.message || error
-      );
-    }
-  },
-  {
-    timezone: process.env.ENGAGEMENT_TIMEZONE || "Africa/Lagos",
-    noOverlap: true,
-  }
-);
-
-// Refresh reusable client behavior milestones every hour.
-cron.schedule(
-  "35 * * * *",
-  async () => {
-    try {
-      const result = await backfillClientBehaviorMilestones();
-      if (result.tagsAdded) {
-        console.log("Client behavior milestone refresh:", result);
-      }
-    } catch (error) {
-      console.error(
-        "Client behavior milestone refresh failed:",
-        error?.message || error
-      );
-    }
-  },
-  { noOverlap: true }
-);
-
-// Refresh reversible client retention-risk state every hour.
-cron.schedule(
-  "45 * * * *",
-  async () => {
-    try {
-      const result = await refreshClientRetentionRiskTags();
-      if (
-        result.tagsAdded ||
-        result.tagsRemoved ||
-        result.attentionNeeded ||
-        result.highRisk
-      ) {
-        console.log("Client retention risk refresh:", result);
-      }
-    } catch (error) {
-      console.error(
-        "Client retention risk refresh failed:",
-        error?.message || error
-      );
-    }
-  },
-  { noOverlap: true }
-);
-
-// Runs each morning after the previous tracking day has fully closed.
-cron.schedule(
-  "0 9 * * *",
-  async () => {
-    try {
-      const result = await runDailyEngagementReview({ sendNotifications: true });
-      if (result.missed || result.nudgesSent || result.duplicatesSkipped) {
-        console.log("Daily engagement review:", result);
-      }
-    } catch (error) {
-      console.error(
-        "Daily engagement review failed:",
-        error?.message || error
-      );
-    }
-  },
-  {
-    timezone: process.env.ENGAGEMENT_TIMEZONE || "Africa/Lagos",
-    noOverlap: true,
-  }
-);
-
-// Runs every day at midnight. Checks if any active client has been around for 30+ days.
-cron.schedule("0 0 * * *", async () => {
-  console.log(" Running automated 30-day performance reviews...");
-  try {
-    const activeClients = await Client.find({
-      status: "active",
-      reconciled: true,
-    });
-    for (const client of activeClients) {
-      const daysActive = (new Date() - new Date(client.startDate)) / (1000 * 60 * 60 * 24);
-      if (daysActive >= 30) {
-        await generateClientReview(client._id);
-      }
-    }
-    console.log(" Automated reviews generated.");
-  } catch (err) {
-    console.error("Cron job error:", err);
-  }
-});
+registerScheduledJobs();
 
 const server = app.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV || "development"} mode on port ${PORT}`);
+  console.log(
+    `Server running in ${process.env.NODE_ENV || "development"} mode on port ${PORT}`
+  );
   setImmediate(() => {
     runStartupMaintenance().catch((error) => {
       console.error("Startup maintenance failed:", error?.message || error);
@@ -591,7 +298,10 @@ async function shutdown(signal, exitCode = 0) {
     try {
       await mongoose.disconnect();
     } catch (error) {
-      console.error("Mongo disconnect during shutdown failed:", error?.message || error);
+      console.error(
+        "Mongo disconnect during shutdown failed:",
+        error?.message || error
+      );
       exitCode = 1;
     } finally {
       clearTimeout(forceExit);
