@@ -24,15 +24,23 @@ import {
   authFlowLimiter,
   loginLimiter,
   sanitizeAuthInput,
-  validateLoginRequest,
 } from "../middleware/rateLimiters.js";
 import { requireTrustedAuthenticatedOrigin } from "../middleware/trustedOrigin.js";
+import { validate } from "../middleware/validate.js";
+import {
+  clientActivationSchema,
+  clientRegistrationSchema,
+  emailOnlySchema,
+  loginSchema,
+  passwordResetSchema,
+} from "../validation/authSchemas.js";
 
 const router = express.Router();
 
 router.post(
   "/register",
   sanitizeAuthInput,
+  validate({ body: clientRegistrationSchema }),
   authFlowLimiter,
   preventExistingClientPortalRegistration,
   registerPreviewAccount
@@ -41,6 +49,7 @@ router.post(
 router.post(
   "/request-activation",
   sanitizeAuthInput,
+  validate({ body: emailOnlySchema }),
   authFlowLimiter,
   requestClientActivation
 );
@@ -48,6 +57,7 @@ router.post(
 router.post(
   "/activate",
   sanitizeAuthInput,
+  validate({ body: clientActivationSchema }),
   authFlowLimiter,
   completeClientActivation
 );
@@ -60,14 +70,15 @@ router.post("/apple/callback", clientAppleCallback);
 router.post(
   "/login",
   sanitizeAuthInput,
+  validate({ body: loginSchema }),
   loginLimiter,
-  validateLoginRequest,
   clientLogin
 );
 
 router.post(
   "/forgot-password",
   sanitizeAuthInput,
+  validate({ body: emailOnlySchema }),
   authFlowLimiter,
   requestClientPasswordReset
 );
@@ -75,6 +86,7 @@ router.post(
 router.post(
   "/reset-password",
   sanitizeAuthInput,
+  validate({ body: passwordResetSchema }),
   authFlowLimiter,
   completeClientPasswordReset
 );
