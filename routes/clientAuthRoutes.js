@@ -26,6 +26,7 @@ import {
   sanitizeAuthInput,
   validateLoginRequest,
 } from "../middleware/rateLimiters.js";
+import { requireTrustedAuthenticatedOrigin } from "../middleware/trustedOrigin.js";
 
 const router = express.Router();
 
@@ -80,6 +81,7 @@ router.post(
 
 router.post(
   "/logout",
+  requireTrustedAuthenticatedOrigin,
   clientLogout
 );
 
