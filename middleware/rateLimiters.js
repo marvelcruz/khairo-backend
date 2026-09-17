@@ -1,4 +1,5 @@
 import rateLimit from "express-rate-limit";
+import mongoSanitize from "express-mongo-sanitize";
 
 const FIFTEEN_MINUTES_MS = 15 * 60 * 1000;
 
@@ -7,6 +8,11 @@ const normalizeEmail = (value) =>
 
 const requestIp = (req) =>
   req.ip || req.socket?.remoteAddress || "unknown";
+
+// This route-level sanitizer runs after Express has parsed req.body. The app's
+// global sanitizer is registered before express.json(), so auth routes should
+// not rely on that ordering for credential payloads.
+export const sanitizeAuthInput = mongoSanitize();
 
 export const validateLoginRequest = (req, res, next) => {
   const email = normalizeEmail(req.body?.email);
@@ -44,8 +50,9 @@ export const validateLoginRequest = (req, res, next) => {
 
 // Login attempts are keyed by both the trusted client IP and normalized email.
 // Successful logins are removed from the count, so the quota represents failed
-// authentication attempts. Hitting the limit produces a 15-minute lockout for
-// that IP+email pair without blocking unrelated users on the same network.
+// authentication attempts. Hitting the limit temporarily locks that IP+email
+// pair for the remainder of the 15-minute window without blocking unrelated
+// users on the same network.
 export const loginLimiter = rateLimit({
   windowMs: FIFTEEN_MINUTES_MS,
   max: 8,
@@ -54,7 +61,7 @@ export const loginLimiter = rateLimit({
   skipSuccessfulRequests: true,
   message: {
     success: false,
-    message: "Too many failed login attempts. Please try again in 15 minutes.",
+    message: "Too many failed login attempts. Please try again later.",
   },
   standardHeaders: true,
   legacyHeaders: false,
