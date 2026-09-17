@@ -23,6 +23,7 @@ import { updateCalorieCalculator } from "../controllers/clientAuthController.js"
 import {
   authFlowLimiter,
   loginLimiter,
+  sanitizeAuthInput,
   validateLoginRequest,
 } from "../middleware/rateLimiters.js";
 
@@ -30,6 +31,7 @@ const router = express.Router();
 
 router.post(
   "/register",
+  sanitizeAuthInput,
   authFlowLimiter,
   preventExistingClientPortalRegistration,
   registerPreviewAccount
@@ -37,12 +39,14 @@ router.post(
 
 router.post(
   "/request-activation",
+  sanitizeAuthInput,
   authFlowLimiter,
   requestClientActivation
 );
 
 router.post(
   "/activate",
+  sanitizeAuthInput,
   authFlowLimiter,
   completeClientActivation
 );
@@ -54,6 +58,7 @@ router.post("/apple/callback", clientAppleCallback);
 
 router.post(
   "/login",
+  sanitizeAuthInput,
   loginLimiter,
   validateLoginRequest,
   clientLogin
@@ -61,12 +66,14 @@ router.post(
 
 router.post(
   "/forgot-password",
+  sanitizeAuthInput,
   authFlowLimiter,
   requestClientPasswordReset
 );
 
 router.post(
   "/reset-password",
+  sanitizeAuthInput,
   authFlowLimiter,
   completeClientPasswordReset
 );
